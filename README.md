@@ -1,15 +1,21 @@
 # rjstat: read and write JSON-stat with R
 
+Read and write data sets in the [JSON-stat](http://json-stat.org/) format. Currently reading mostly works but writing is not yet implemented.
+
 Installation:
 
 ```r
 install_github("rjstat", "ajschumacher")
+# If this fails it's likely because you don't have devtools;
+# 'install.packages("devtools");library(devtools)' will fix that.
 ```
 
 Usage:
 
 ```r
+library(rjstat)
 read.jsonstat(readLines("http://json-stat.org/samples/order.json"))
+
 ## $`Demo of value ordering: what does not change, first`
 ##    A: 3-categories dimension B: 2-categories dimension C: 4-categories dimension  value
 ## 1                          1                         1                         1 A1B1C1
