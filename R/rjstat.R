@@ -1,4 +1,13 @@
-read.jsonstat <- function(jsonstat, naming="label") {
+
+#` Convert JSON-stat format to a list of data frames
+#`
+#` This function takes characters of a JSON-stat format response (or the
+#` corresponding R list equivalent) and returns a list of data frames with
+#` columns for each dimension and one \code{value} column.
+#`
+#` @param jsonstat the JSON-stat format in characters (or R list equivalent)
+#` @param naming whether to use (longer) \code{label}s or (shorter) \code{id}s
+fromJSONstat <- function(jsonstat, naming="label") {
   if (!naming %in% c("label", "id")) {
     stop('naming must be "label" or "id"')
   }
