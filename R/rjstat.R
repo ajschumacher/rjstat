@@ -80,14 +80,18 @@ fromJSONstat <- function(x, naming="label") {
 
     theseVals <- jsList$value
     if (class(theseVals) == "list") {
-      indices <- as.integer(names(theseVals))
-      theseVals <- unlist(theseVals)
+      if (is.null(names(theseVals))) {
+        indices <- 0:(thisN-1)
+      } else {
+        indices <- as.integer(names(theseVals))
+      }
     } else {
       indices <- 0:(thisN-1)
+      theseVals <- as.list(theseVals)
     }
 
     for (i in 1:thisN) {
-      value <- theseVals[i]
+      value <- theseVals[[i]]
       if (is.null(value)) {
         value <- NA
       }
