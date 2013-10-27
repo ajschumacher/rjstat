@@ -5,26 +5,26 @@
 #` corresponding R list equivalent) and returns a list of data frames with
 #` columns for each dimension and one \code{value} column.
 #`
-#` @param jsonstat the JSON-stat format in characters (or R list equivalent)
+#` @param x the JSON-stat format in characters (or R list equivalent)
 #` @param naming whether to use (longer) \code{label}s or (shorter) \code{id}s
-fromJSONstat <- function(jsonstat, naming="label") {
+fromJSONstat <- function(x, naming="label") {
   if (!naming %in% c("label", "id")) {
     stop('naming must be "label" or "id"')
   }
-  if (class(jsonstat) == "character") {
-    if (length(jsonstat) != 1) {
-      jsonstat <- paste(jsonstat, collapse=" ")
+  if (class(x) == "character") {
+    if (length(x) != 1) {
+      x <- paste(x, collapse=" ")
     }
-    jsonstat <- fromJSON(jsonstat)
+    x <- fromJSON(x)
   }
   result <- list()
-  for (k in 1:length(jsonstat)) {
-    jsList <- jsonstat[[k]]
+  for (k in 1:length(x)) {
+    jsList <- x[[k]]
     dimensions <- list()
     dimSizes <- jsList$dimension$size
     numDims <- length(dimSizes)
     baseSys <- c(sapply(1:numDims, function(i){return(prod(dimSizes[i:numDims]))}),1)
-    
+
     for (i in 1:numDims) {
       thisDim <- jsList$dimension$id[[i]]
       thisDimName <- jsList$dimension[[thisDim]]$label
@@ -71,7 +71,7 @@ fromJSONstat <- function(jsonstat, naming="label") {
         names(dimensions)[i] <- thisDim
       }
     }
-    
+
     thisN <- length(jsList$value)
     output <- as.data.frame(matrix(data=integer(),
                                    nrow=thisN,
@@ -97,15 +97,15 @@ fromJSONstat <- function(jsonstat, naming="label") {
       })
       output[i,numDims+1] <- value
     }
-    
+
     for (i in 1:numDims) {
       output[[i]] <- dimensions[[i]][output[[i]]+1]
     }
-    
+
     result[[k]] <- output
     thisLabel <- jsList$label
     if (is.null(thisLabel) | naming == "id") {
-      thisLabel <- names(jsonstat)[k]
+      thisLabel <- names(x)[k]
     }
     names(result)[k] <- thisLabel
   }
