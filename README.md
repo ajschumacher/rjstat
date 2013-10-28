@@ -37,4 +37,17 @@ irisJSONstat <- toJSONstat(list(iris=irises))
 cat(substr(irisJSONstat, 1, 80))
 
 ## {"iris":{"dimension":{"Species":{"category":{"index":["setosa","versicolor","vir
+
+
+# You can successfully convert back and forth, but only for the features that
+# make sense in both R and JSON-stat.
+head(fromJSONstat(irisJSONstat)[[1]])
+
+##   Species Specimen     variable value
+## 1  setosa        1 Sepal.Length   5.1
+## 2  setosa        1  Sepal.Width   3.5
+## 3  setosa        1 Petal.Length   1.4
+## 4  setosa        1  Petal.Width   0.2
+## 5  setosa        2 Sepal.Length   4.9
+## 6  setosa        2  Sepal.Width   3.0
 ```
