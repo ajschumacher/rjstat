@@ -5,10 +5,8 @@ Read and write data sets in the [JSON-stat](http://json-stat.org/) format. Curre
 Installation:
 
 ```r
+library(devtools)
 install_github("rjstat", "ajschumacher")
-# If this fails it's likely because you don't have devtools;
-# fix with this line:
-# install.packages("devtools");library(devtools)
 ```
 
 Usage:
