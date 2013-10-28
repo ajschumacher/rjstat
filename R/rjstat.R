@@ -115,3 +115,46 @@ fromJSONstat <- function(x, naming="label") {
   }
   return(result)
 }
+
+
+#` Convert a (list of) data frame(s) to JSON-stat format
+#`
+#` to update~
+#`
+#` @param x a data frame or list of data frames
+#` @param value name of value column
+toJSONstat <- function(x, value="value") {
+  if (class(x) == "data.frame") {
+    x <- list(x)
+  }
+  resultList <- list()
+  for (k in 1:length(x)) {
+    dims <- x[[k]][, names(x[[k]]) != value]
+    if (!all(!duplicated(dims))) {
+      stop("non-value columns must constitute a unique ID")
+    }
+    jsList <- list()
+    dimensions <- list()
+    for (i in 1:length(dims)) {
+      dim <- dims[[i]]
+      dimName <- names(dims)[i]
+      dimensions[[i]] <- unique(dim)
+      jsList$dimension[[dimName]] <- list(category=list(index=as.character(dimensions[[i]])))
+    }
+    jsList$dimension[['id']] <- names(dims)
+    dimSizes <- sapply(dimensions, function(x){return(length(x))})
+    jsList$dimension[['size']] <- dimSizes
+    baseSys <- c(sapply(1:length(dimSizes), function(j){return(prod(dimSizes[j:length(dimSizes)]))}),1)
+    values <- x[[k]][[value]]
+    valuesList <- lapply(1:prod(dimSizes), function(x){return(NULL)})
+    numDims <- length(dims)
+    for (i in 1:length(values)) {
+      index <- sum(sapply(1:numDims, function(j){return((which(dimensions[[j]]==dims[i,j])-1)*baseSys[j+1])})) + 1
+      valuesList[[index]] <- values[i]
+    }
+    jsList[['value']] <- valuesList
+    resultList[[k]] <- jsList
+    names(resultList)[k] <- names(x)[k]
+  }
+  return(toJSON(resultList))
+}
