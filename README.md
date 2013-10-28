@@ -4,14 +4,14 @@ Read and write data sets in the [JSON-stat](http://json-stat.org/) format.
 
 Installation:
 
-```r
+```s
 library(devtools)
 install_github("rjstat", "ajschumacher")
 ```
 
 Usage:
 
-```r
+```s
 library(rjstat)
 
 
