@@ -1,12 +1,16 @@
+#' @import rjson
+NULL
 
-#` Convert JSON-stat format to a list of data frames
-#`
-#` This function takes characters of a JSON-stat format response (or the
-#` corresponding R list equivalent) and returns a list of data frames with
-#` columns for each dimension and one \code{value} column.
-#`
-#` @param x the JSON-stat format in characters (or R list equivalent)
-#` @param naming whether to use (longer) \code{label}s or (shorter) \code{id}s
+#' Convert JSON-stat format to a list of data frames
+#'
+#' This function takes characters of a JSON-stat format response (or the
+#' corresponding R list equivalent) and returns a list of data frames with
+#' columns for each dimension and one \code{value} column.
+#'
+#' @param x the JSON-stat format in characters (or R list equivalent)
+#' @param naming whether to use (longer) \code{label}s or (shorter) \code{id}s
+#'
+#' @export
 fromJSONstat <- function(x, naming="label") {
   if (!naming %in% c("label", "id")) {
     stop('naming must be "label" or "id"')
@@ -117,12 +121,14 @@ fromJSONstat <- function(x, naming="label") {
 }
 
 
-#` Convert a (list of) data frame(s) to JSON-stat format
-#`
-#` to update~
-#`
-#` @param x a data frame or list of data frames
-#` @param value name of value column
+#' Convert a (list of) data frame(s) to JSON-stat format
+#'
+#' to update~
+#'
+#' @param x a data frame or list of data frames
+#' @param value name of value column
+#'
+#' @export
 toJSONstat <- function(x, value="value") {
   if (class(x) == "data.frame") {
     x <- list(x)
