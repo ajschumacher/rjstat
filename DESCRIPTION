@@ -10,4 +10,7 @@ Description: Read and write the JSON-stat format (http://json-stat.org) to and
     the extensive metadata features of JSON-stat.
 License: MIT + file LICENSE
 Imports:
-    rjson
+    jsonlite,
+    assertthat
+Suggests:
+    testthat

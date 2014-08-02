@@ -3,12 +3,15 @@
 \alias{fromJSONstat}
 \title{Convert JSON-stat format to a list of data frames}
 \usage{
-fromJSONstat(x, naming = "label")
+fromJSONstat(x, naming = "label", use_factors = F)
 }
 \arguments{
 \item{x}{the JSON-stat format in characters (or R list equivalent)}
 
 \item{naming}{whether to use (longer) \code{label}s or (shorter) \code{id}s}
+
+\item{use_factors}{whether dimension categories should be factors or
+  character objects}
 }
 \description{
 This function takes characters of a JSON-stat format response (or the

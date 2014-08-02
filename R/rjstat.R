@@ -1,4 +1,5 @@
-#' @import rjson
+#' @import jsonlite
+#' @import assertthat
 NULL
 
 #' Convert JSON-stat format to a list of data frames
@@ -9,117 +10,111 @@ NULL
 #'
 #' @param x the JSON-stat format in characters (or R list equivalent)
 #' @param naming whether to use (longer) \code{label}s or (shorter) \code{id}s
+#' @param use_factors whether dimension categories should be factors or
+#'   character objects
 #'
 #' @export
-fromJSONstat <- function(x, naming="label") {
-  if (!naming %in% c("label", "id")) {
-    stop('naming must be "label" or "id"')
-  }
-  if (class(x) == "character") {
-    if (length(x) != 1) {
-      x <- paste(x, collapse=" ")
+fromJSONstat <- function(x, naming = "label", use_factors = F) {
+    assert_that(is.character(x))
+    assert_that(length(x) > 0)
+    if (length(x) > 1) {
+        x <- paste(x, collapse = " ")
     }
+
+    assert_that(is.string(naming))
+    if (!naming %in% c("label", "id")) {
+        stop('naming must be "label" or "id"', call. = F)
+    }
+
+    assert_that(is.flag(use_factors))
+    assert_that(noNA(use_factors))
+
     x <- fromJSON(x)
-  }
-  result <- list()
-  for (k in 1:length(x)) {
-    jsList <- x[[k]]
-    dimensions <- list()
-    dimSizes <- jsList$dimension$size
-    numDims <- length(dimSizes)
-    baseSys <- c(sapply(1:numDims, function(i){return(prod(dimSizes[i:numDims]))}),1)
 
-    for (i in 1:numDims) {
-      thisDim <- jsList$dimension$id[[i]]
-      thisDimName <- jsList$dimension[[thisDim]]$label
-      if (is.null(thisDimName)) {
-        thisDimName <- thisDim
-      }
-      thisDimSize <- jsList$dimension$size[[i]]
-      thisDimLabel <- jsList$dimension[[thisDim]]$category$label
-      if (!is.null(thisDimLabel)) {
-        thisDimLabel <- data.frame(id=names(thisDimLabel),
-                                   label=unlist(thisDimLabel),
-                                   stringsAsFactors=FALSE)
-      }
-      thisDimIndex <- jsList$dimension[[thisDim]]$category$index
-      if (is.null(thisDimIndex)) {
-        thisDimIndex <- data.frame(id=thisDimLabel[1, "id"],
-                                   index=0,
-                                   stringsAsFactors=FALSE)
-      } else {
-        if (class(thisDimIndex)=="list") {
-          thisDimIndex <- data.frame(id=names(thisDimIndex),
-                                     index=unlist(thisDimIndex),
-                                     stringsAsFactors=FALSE)
-        } else {
-          thisDimIndex <- data.frame(id=thisDimIndex,
-                                     index=0:(length(thisDimIndex)-1),
-                                     stringsAsFactors=FALSE)
-        }
-      }
-      if (is.null(thisDimLabel)) {
-        thisDimLabel <- data.frame(id=thisDimIndex$id,
-                                   label=thisDimIndex$id,
-                                   stringsAsFactors=FALSE)
-      }
-      thisDimAll <- merge(thisDimIndex, thisDimLabel)
-      if (naming == "label") {
-        dimensions[[i]] <- thisDimAll$label[order(thisDimAll$index)]
-      } else {
-        dimensions[[i]] <- thisDimAll$id[order(thisDimAll$index)]
-      }
-      if (naming == "label") {
-        names(dimensions)[i] <- thisDimName
-      } else {
-        names(dimensions)[i] <- thisDim
-      }
+    dataset_labels <- unlist(lapply(x, getElement, "label"))
+
+    datasets <- lapply(x, .parse_dataset, naming, use_factors)
+
+    if (identical(naming, "label") && !is.null(dataset_labels)) {
+        names(datasets) <- dataset_labels
     }
 
-    thisN <- length(jsList$value)
-    output <- as.data.frame(matrix(data=integer(),
-                                   nrow=thisN,
-                                   ncol=length(dimensions)+1))
-    names(output) <- c(names(dimensions), "value")
-
-    theseVals <- jsList$value
-    if (class(theseVals) == "list") {
-      if (is.null(names(theseVals))) {
-        indices <- 0:(thisN-1)
-      } else {
-        indices <- as.integer(names(theseVals))
-      }
-    } else {
-      indices <- 0:(thisN-1)
-      theseVals <- as.list(theseVals)
-    }
-
-    for (i in 1:thisN) {
-      value <- theseVals[[i]]
-      if (is.null(value)) {
-        value <- NA
-      }
-      index <- indices[i]
-      output[i,1:numDims] <- sapply(1:numDims, function(j){
-        return(floor((index)/baseSys[j+1])%%dimSizes[j])
-      })
-      output[i,numDims+1] <- value
-    }
-
-    for (i in 1:numDims) {
-      output[[i]] <- dimensions[[i]][output[[i]]+1]
-    }
-
-    result[[k]] <- output
-    thisLabel <- jsList$label
-    if (is.null(thisLabel) | naming == "id") {
-      thisLabel <- names(x)[k]
-    }
-    names(result)[k] <- thisLabel
-  }
-  return(result)
+    datasets
 }
 
+.parse_dataset <- function(dataset, naming, use_factors) {
+    n_rows <- prod(dataset$dimension$size)
+
+    dimension_ids <- dataset$dimension$id
+    if (is.null(dimension_ids)) stop("corrupt input", call. = F)
+    dimensions <- dataset$dimension[dimension_ids]
+    dimension_labels <- unlist(lapply(dimensions, getElement, "label"))
+
+    each <- c(rev(cumprod(rev(dataset$dimension$size))), 1)[-1]
+
+    dimension_categories <- lapply(dimensions, .parse_dimension,
+                                   naming, use_factors)
+
+    dimension_table <- Map(rep, dimension_categories, each = each,
+                           length.out = n_rows)
+
+    if (identical(naming, "label") && !is.null(dimension_labels)) {
+        names(dimension_table) <- dimension_labels
+    } else {
+        names(dimension_table) <- dimension_ids
+    }
+
+    value <- dataset$value
+    if (is.list(value)) {
+        if (identical(length(value), 1L)) {
+            if (is.null(value[[1]])) {
+                value <- rep(NA_real_, n_rows)
+            } else {
+                value <- rep(value[[1]], n_rows)
+            }
+        } else {
+            v <- rep(NA_real_, n_rows)
+            i <- as.integer(names(value)) + 1
+            for (j in 1:length(i))
+                v[i[j]] <- value[[j]]
+            value <- v
+        }
+    }
+
+    data_frame <- c(dimension_table, list(value = value))
+    class(data_frame) <- "data.frame"
+    attr(data_frame, "row.names") <- .set_row_names(length(data_frame[[1]]))
+
+    attr(data_frame, "source") <- dataset$source
+    attr(data_frame, "updated") <- dataset$updated
+    data_frame
+}
+
+.parse_dimension <- function(dimension, naming, use_factors) {
+    index <- dimension$category$index
+    labels <- dimension$category$label
+    if (is.null(index)) {
+        categories <- unlist(labels)
+        if (identical(naming, "label")) {
+            categories <- unname(categories)
+        } else {
+            categories <- names(categories)
+        }
+    } else {
+        categories <- names(index)
+        if (is.null(categories)) {
+            categories <- index
+        }
+        if (!is.null(labels) && identical(naming, "label")) {
+            categories <- unname(unlist(labels))
+        }
+    }
+    if (is.null(categories)) stop("corrupt input", call. = F)
+    if (use_factors) {
+        categories <- factor(categories, levels = categories)
+    }
+    categories
+}
 
 #' Convert a (list of) data frame(s) to JSON-stat format
 #'
