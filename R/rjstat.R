@@ -122,40 +122,114 @@ fromJSONstat <- function(x, naming = "label", use_factors = F) {
 #'
 #' @param x a data frame or list of data frames
 #' @param value name of value column
+#' @param ... arguments passed on to \code{\link{toJSON}}
 #'
 #' @export
-toJSONstat <- function(x, value="value") {
-  if (class(x) == "data.frame") {
-    x <- list(x)
-  }
-  resultList <- list()
-  for (k in 1:length(x)) {
-    dims <- x[[k]][, names(x[[k]]) != value]
-    if (!all(!duplicated(dims))) {
-      stop("non-value columns must constitute a unique ID")
+toJSONstat <- function(x, value = "value", ...) {
+    assert_that(is.data.frame(x) || is.list(x))
+
+    assert_that(is.string(value))
+    if (identical(value, "")) {
+        value <- "value"
     }
-    jsList <- list()
-    dimensions <- list()
-    for (i in 1:length(dims)) {
-      dim <- dims[[i]]
-      dimName <- names(dims)[i]
-      dimensions[[i]] <- unique(dim)
-      jsList$dimension[[dimName]] <- list(category=list(index=as.character(dimensions[[i]])))
+
+    if (is.data.frame(x)) {
+        x <- list(dataset = x)
     }
-    jsList$dimension[['id']] <- names(dims)
-    dimSizes <- sapply(dimensions, function(x){return(length(x))})
-    jsList$dimension[['size']] <- dimSizes
-    baseSys <- c(sapply(1:length(dimSizes), function(j){return(prod(dimSizes[j:length(dimSizes)]))}),1)
-    values <- x[[k]][[value]]
-    valuesList <- lapply(1:prod(dimSizes), function(x){return(NULL)})
-    numDims <- length(dims)
-    for (i in 1:length(values)) {
-      index <- sum(sapply(1:numDims, function(j){return((which(dimensions[[j]]==dims[i,j])-1)*baseSys[j+1])})) + 1
-      valuesList[[index]] <- values[i]
+
+    assert_that(length(x) > 0)
+
+    datasets <- lapply(x, .unravel_dataset, value)
+
+    dataset_names <- names(datasets)
+    default_names <- paste0("dataset", 1:length(datasets))
+    default_names[1] <- "dataset"
+
+    if (is.null(dataset_names)) {
+        dataset_names <- default_names
+    } else {
+        i <- which(dataset_names == "")
+        dataset_names[i] <- default_names[i]
+        j <- which(duplicated(dataset_names))
+        dataset_names[j]  <- paste0(dataset_names[j]," (",
+                                    default_names[j], ")")
     }
-    jsList[['value']] <- valuesList
-    resultList[[k]] <- jsList
-    names(resultList)[k] <- names(x)[k]
-  }
-  return(toJSON(resultList))
+
+    if (!identical(dataset_names, names(datasets))) {
+        names(datasets) <- dataset_names
+    }
+
+    toJSON(datasets, na = "null", ...)
+}
+
+.unravel_dataset <- function(dataset, value) {
+    assert_that(is.data.frame(dataset))
+    assert_that(nrow(dataset) > 0)
+    if (is.null(dataset[[value]])) {
+        stop("\"", value, "\" is not a column in dataset", call. = F)
+    }
+
+    i <- which(colnames(dataset) == value)
+    dimensions <- lapply(dataset[, -i], function(dimension) {
+        if (is.factor(dimension)) {
+            dimension
+        } else {
+            factor(dimension)
+        }
+    })
+    class(dimensions) <- "data.frame"
+    attr(dimensions, "row.names") <- .set_row_names(length(dimensions[[1]]))
+
+    if (!all(!duplicated(dimensions))) {
+        stop("non-value columns must constitute a unique ID", call. = F)
+    }
+
+    dimension_sizes <- vapply(dimensions, nlevels, integer(1))
+    dimension_ids <- names(dimensions)
+    categories <- lapply(dimensions, function(dimension) {
+        list(category = list(index = levels(dimension)))
+    })
+
+    dimension_list <- c(categories,
+                        list(id = dimension_ids,
+                             size = dimension_sizes))
+
+    dim_factors <- c(rev(cumprod(rev(dimension_sizes)))[-1], 1)
+    dim_factors <- as.integer(dim_factors)
+
+    sort_table <- lapply(dimensions, function(dimension) {
+        unclass(dimension) - 1L
+    })
+    sort_table <- Map(`*`, sort_table, dim_factors)
+
+    sort_index <- Reduce(`+`, sort_table) + 1L
+    attributes(sort_index) <- NULL
+
+    assert_that(!any(duplicated(sort_index)))
+
+    n <- prod(dimension_sizes)
+    values <- dataset[[value]]
+    if (length(values) == n) {
+        if (!identical(sort_index, 1:n)) {
+            values[sort_index] <- values
+        }
+    } else {
+        v <- rep.int(NA_real_, n)
+        v[sort_index] <- values
+        values <- v
+    }
+
+    datalist <- list(dimension = dimension_list,
+                     value = values)
+
+    if (!is.null(attr(dataset, "source"))) {
+        datalist$source <- unbox(paste(attr(dataset, "source"),
+                                       collapse = " "))
+    }
+    if (!is.null(attr(dataset, "updated"))) {
+        datalist$updated <- unbox(paste(attr(dataset, "updated"),
+                                        collapse = " "))
+    }
+
+    datalist
 }

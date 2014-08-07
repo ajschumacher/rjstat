@@ -3,12 +3,14 @@
 \alias{toJSONstat}
 \title{Convert a (list of) data frame(s) to JSON-stat format}
 \usage{
-toJSONstat(x, value = "value")
+toJSONstat(x, value = "value", ...)
 }
 \arguments{
 \item{x}{a data frame or list of data frames}
 
 \item{value}{name of value column}
+
+\item{...}{arguments passed on to \code{\link{toJSON}}}
 }
 \description{
 to update~
