@@ -29,3 +29,9 @@ test_that("correct input doesn't fail", {
     expect_that(fromJSONstat(oecd, naming = "id", use_factors = T),
                 not(throws_error()))
 })
+
+test_that("round-trip works", {
+    df1 <- fromJSONstat(oecd, use_factors = T)
+    df2 <- fromJSONstat(toJSONstat(df1, digits = 8), use_factors = T)
+    expect_that(df1, equals(df2))
+})
