@@ -112,3 +112,9 @@ test_that("attributes are correct", {
     expect_that(attr(fromJSONstat(salmon)[[1]], "updated"),
                 equals("2014-08-09T15:21:14Z"))
 })
+
+test_that("single-dimension input gives correct output", {
+    expect_that(toJSONstat(data.frame(V1 = "a", value = 1)),
+                is_identical_to(structure("{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\"]}},\"id\":[\"V1\"],\"size\":[1]},\"value\":[1]}}",
+                                          class = "json")))
+})

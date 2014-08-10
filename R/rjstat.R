@@ -165,18 +165,28 @@ toJSONstat <- function(x, value = "value", ...) {
 .unravel_dataset <- function(dataset, value) {
     assert_that(is.data.frame(dataset))
     assert_that(nrow(dataset) > 0)
+    assert_that(ncol(dataset) > 1)
     if (is.null(dataset[[value]])) {
         stop("\"", value, "\" is not a column in dataset", call. = F)
     }
 
     i <- which(colnames(dataset) == value)
-    dimensions <- lapply(dataset[, -i], function(dimension) {
-        if (is.factor(dimension)) {
-            dimension
+    if (ncol(dataset) > 2) {
+        dimensions <- lapply(dataset[, -i], function(dimension) {
+            if (is.factor(dimension)) {
+                dimension
+            } else {
+                factor(dimension)
+            }
+        })
+    } else {
+        if (is.factor(dataset[, -i])) {
+            dimensions <- list(dataset[, -i])
         } else {
-            factor(dimension)
+            dimensions <- list(factor(dataset[, -i]))
         }
-    })
+        names(dimensions) <- colnames(dataset)[-i]
+    }
     class(dimensions) <- "data.frame"
     attr(dimensions, "row.names") <- .set_row_names(length(dimensions[[1]]))
 
