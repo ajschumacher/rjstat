@@ -46,7 +46,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = F) {
     n_rows <- prod(dataset$dimension$size)
 
     dimension_ids <- dataset$dimension$id
-    if (is.null(dimension_ids)) stop("corrupt input", call. = F)
+    assert_that(!is.null(dimension_ids))
     dimensions <- dataset$dimension[dimension_ids]
     dimension_labels <- unlist(lapply(dimensions, getElement, "label"))
 
@@ -110,7 +110,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = F) {
             categories <- unname(unlist(labels))
         }
     }
-    if (is.null(categories)) stop("corrupt input", call. = F)
+    assert_that(!is.null(categories))
     if (use_factors) {
         categories <- factor(categories, levels = categories)
     }
