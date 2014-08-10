@@ -118,3 +118,12 @@ test_that("single-dimension input gives correct output", {
                 is_identical_to(structure("{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\"]}},\"id\":[\"V1\"],\"size\":[1]},\"value\":[1]}}",
                                           class = "json")))
 })
+
+test_that("sparse cubes give correct output", {
+    expect_that(toJSONstat(data.frame(V1 = c("a", "b"), V2 = c("A", "B"),
+                                      value = 1:2)),
+                is_identical_to(structure("{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\",\"b\"]}},\"V2\":{\"category\":{\"index\":[\"A\",\"B\"]}},\"id\":[\"V1\",\"V2\"],\"size\":[2,2]},\"value\":{\"0\":1,\"3\":2}}}",
+                                          class = "json")))
+    expect_that(fromJSONstat("{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\",\"b\"]}},\"V2\":{\"category\":{\"index\":[\"A\",\"B\"]}},\"id\":[\"V1\",\"V2\"],\"size\":[2,2]},\"value\":{\"0\":1,\"3\":2}}}"),
+                is_identical_to(structure(list(dataset = structure(list(V1 = c("a", "a", "b", "b"), V2 = c("A", "B", "A", "B"), value = c(1, NA, NA, 2)), .Names = c("V1", "V2", "value"), class = "data.frame", row.names = c(NA, -4L))), .Names = "dataset")))
+})

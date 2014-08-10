@@ -75,6 +75,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = F) {
         } else {
             v <- rep(NA_real_, n_rows)
             i <- as.integer(names(value)) + 1
+            assert_that(max(i) <= n_rows, min(i) > 0)
             for (j in 1:length(i))
                 v[i[j]] <- value[[j]]
             value <- v
@@ -224,9 +225,8 @@ toJSONstat <- function(x, value = "value", ...) {
             values[sort_index] <- values
         }
     } else {
-        v <- rep.int(NA_real_, n)
-        v[sort_index] <- values
-        values <- v
+        values <- lapply(values, unbox)
+        names(values) <- sort_index - 1
     }
 
     datalist <- list(dimension = dimension_list,
