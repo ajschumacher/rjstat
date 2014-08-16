@@ -13,17 +13,17 @@ Usage:
 
 ```s
 library(rjstat)
-
+oecd.canada.url <- "http://json-stat.org/samples/oecd-canada.json"
 
 # Read from JSON-stat to a list of data frames:
-results <- fromJSONstat(readLines("http://json-stat.org/samples/oecd-canada.json"))
+results <- fromJSONstat(readLines(oecd.canada.url))
 names(results)
 
 ## [1] "Unemployment rate in the OECD countries 2003-2014"
 ## [2] "Population by sex and age group. Canada. 2012"
 
 # You can also read in using the typically terser IDs rather than labels.
-results <- fromJSONstat(readLines("http://json-stat.org/samples/oecd-canada.json"), naming="id")
+results <- fromJSONstat(readLines(oecd.canada.url), naming="id")
 names(results)
 
 ## [1] "oecd"   "canada"
@@ -32,12 +32,12 @@ names(results)
 # Convert from a list of data frames to a JSON-stat string.
 # (The data frames must have exactly one value column.)
 library(reshape)
-irises <- melt(cbind(iris, Specimen=rep(1:50, 3)), id.vars=c("Species", "Specimen"))
+irises <- melt(cbind(iris, Specimen=rep(1:50, 3)),
+               id.vars=c("Species", "Specimen"))
 irisJSONstat <- toJSONstat(list(iris=irises))
-cat(substr(irisJSONstat, 1, 80))
+cat(substr(irisJSONstat, 1, 76))
 
-## {"iris":{"dimension":{"Species":{"category":{"index":["setosa","versicolor","vir
-
+## {"iris":{"dimension":{"Species":{"category":{"index":["setosa","versicolor",
 
 # You can successfully convert back and forth, but only for the features that
 # make sense in both R and JSON-stat.

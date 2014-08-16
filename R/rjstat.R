@@ -2,7 +2,7 @@
 #' @import assertthat
 NULL
 
-#' Convert JSON-stat format to a list of data frames
+#' Convert JSON-stat format to data frame(s)
 #'
 #' This function takes characters of a JSON-stat format response (or the
 #' corresponding R list equivalent) and returns a list of data frames with
@@ -14,6 +14,10 @@ NULL
 #'   character objects
 #'
 #' @export
+#' @examples
+#' oecd.canada.url <- "http://json-stat.org/samples/oecd-canada.json"
+#' results <- fromJSONstat(readLines(oecd.canada.url))
+#' names(results)
 fromJSONstat <- function(x, naming = "label", use_factors = F) {
     assert_that(is.character(x))
     assert_that(length(x) > 0)
@@ -117,15 +121,24 @@ fromJSONstat <- function(x, naming = "label", use_factors = F) {
     categories
 }
 
-#' Convert a (list of) data frame(s) to JSON-stat format
+#' Convert data frame(s) to JSON-stat format
 #'
-#' to update~
+#' This function takes a data frame or list of data frames and returns
+#' a string representation in JSON-stat format. The input data frame(s)
+#' must be in maximally long tidy format: with only one \code{value}
+#' column and all other columns representing dimensions.
 #'
 #' @param x a data frame or list of data frames
 #' @param value name of value column
 #' @param ... arguments passed on to \code{\link{toJSON}}
 #'
 #' @export
+#' @examples
+#' library(reshape)
+#' irises <- melt(cbind(iris, Specimen=rep(1:50, 3)),
+#'                id.vars=c("Species", "Specimen"))
+#' irisJSONstat <- toJSONstat(list(iris=irises))
+#' cat(substr(irisJSONstat, 1, 76))
 toJSONstat <- function(x, value = "value", ...) {
     assert_that(is.data.frame(x) || is.list(x))
 
