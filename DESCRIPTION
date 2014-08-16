@@ -9,6 +9,7 @@ Description: Read and write the JSON-stat format (http://json-stat.org) to and
     from (lists of) R data frames. Not all features are supported, especially
     the extensive metadata features of JSON-stat.
 License: MIT + file LICENSE
+Encoding: UTF-8
 Imports:
     jsonlite,
     assertthat
