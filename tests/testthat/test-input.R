@@ -17,6 +17,12 @@ test_that("wrong input fails", {
     expect_that(toJSONstat(list(1)), throws_error("is not a data frame"))
     expect_that(toJSONstat(non_unique),
                 throws_error("non-value columns must constitute a unique ID"))
+    expect_that(toJSONstat(data.frame(value = 1, id = 1)),
+                throws_error("not allowed column names"))
+    expect_that(toJSONstat(data.frame(value = 1, size = 1)),
+                throws_error("not allowed column names"))
+    expect_that(toJSONstat(data.frame(value = 1, role = 1)),
+                throws_error("not allowed column names"))
 })
 
 test_that("correct input doesn't fail", {

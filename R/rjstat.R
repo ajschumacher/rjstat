@@ -126,7 +126,9 @@ fromJSONstat <- function(x, naming = "label", use_factors = F) {
 #' This function takes a data frame or list of data frames and returns
 #' a string representation in JSON-stat format. The input data frame(s)
 #' must be in maximally long tidy format: with only one \code{value}
-#' column and all other columns representing dimensions.
+#' column and all other columns representing dimensions. The reserved
+#' words \code{id}, \code{size} and \code{role} are not allowed
+#' column names.
 #'
 #' @param x a data frame or list of data frames
 #' @param value name of value column
@@ -182,6 +184,10 @@ toJSONstat <- function(x, value = "value", ...) {
     assert_that(ncol(dataset) > 1)
     if (is.null(dataset[[value]])) {
         stop("\"", value, "\" is not a column in dataset", call. = F)
+    }
+    if (any(colnames(dataset) %in% c("id", "size", "role"))) {
+        stop("\"id\", \"size\" and \"role\" are not allowed column names",
+             call. = F)
     }
 
     i <- which(colnames(dataset) == value)
