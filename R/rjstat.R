@@ -23,9 +23,11 @@ NULL
 #'
 #' @export
 #' @examples
+#' \dontrun{
 #' oecd.canada.url <- "http://json-stat.org/samples/oecd-canada.json"
 #' results <- fromJSONstat(readLines(oecd.canada.url))
 #' names(results)
+#' }
 fromJSONstat <- function(x, naming = "label", use_factors = F) {
     assert_that(is.character(x))
     assert_that(length(x) > 0)

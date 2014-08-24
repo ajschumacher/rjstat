@@ -19,8 +19,10 @@ corresponding R list equivalent) and returns a list of data frames with
 columns for each dimension and one \code{value} column.
 }
 \examples{
+\dontrun{
 oecd.canada.url <- "http://json-stat.org/samples/oecd-canada.json"
 results <- fromJSONstat(readLines(oecd.canada.url))
 names(results)
+}
 }
 
