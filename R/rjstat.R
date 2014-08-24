@@ -1,3 +1,11 @@
+#' Read and write JSON-stat data sets
+#'
+#' \href{http://json-stat.org}{JSON-stat} is a JSON format for data
+#' dissemination. The \pkg{rjstat} package converts data frames to and from this
+#' format. The extensive metadata features of JSON-stat are not supported.
+#'
+#' @docType package
+#' @name rjstat
 #' @import jsonlite
 #' @import assertthat
 NULL
