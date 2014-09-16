@@ -10,7 +10,7 @@ toJSONstat(x, value = "value", ...)
 
 \item{value}{name of value column}
 
-\item{...}{arguments passed on to \code{\link{toJSON}}}
+\item{...}{arguments passed on to \code{\link[jsonlite]{toJSON}}}
 }
 \description{
 This function takes a data frame or list of data frames and returns

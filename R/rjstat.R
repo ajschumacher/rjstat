@@ -149,7 +149,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = F) {
 #'
 #' @param x a data frame or list of data frames
 #' @param value name of value column
-#' @param ... arguments passed on to \code{\link{toJSON}}
+#' @param ... arguments passed on to \code{\link[jsonlite]{toJSON}}
 #'
 #' @export
 #' @examples
