@@ -26,18 +26,18 @@ test_that("wrong input fails", {
 })
 
 test_that("correct input doesn't fail", {
-    expect_that(fromJSONstat(oecd, naming = "label", use_factors = F),
+    expect_that(fromJSONstat(oecd, naming = "label", use_factors = FALSE),
                 not(throws_error()))
-    expect_that(fromJSONstat(oecd, naming = "label", use_factors = T),
+    expect_that(fromJSONstat(oecd, naming = "label", use_factors = TRUE),
                 not(throws_error()))
-    expect_that(fromJSONstat(oecd, naming = "id", use_factors = F),
+    expect_that(fromJSONstat(oecd, naming = "id", use_factors = FALSE),
                 not(throws_error()))
-    expect_that(fromJSONstat(oecd, naming = "id", use_factors = T),
+    expect_that(fromJSONstat(oecd, naming = "id", use_factors = TRUE),
                 not(throws_error()))
 })
 
 test_that("round-trip works", {
-    df1 <- fromJSONstat(oecd, use_factors = T)
-    df2 <- fromJSONstat(toJSONstat(df1, digits = 8), use_factors = T)
+    df1 <- fromJSONstat(oecd, use_factors = TRUE)
+    df2 <- fromJSONstat(toJSONstat(df1, digits = 8), use_factors = TRUE)
     expect_that(df1, equals(df2))
 })

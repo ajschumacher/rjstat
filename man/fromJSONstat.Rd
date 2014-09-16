@@ -3,7 +3,7 @@
 \alias{fromJSONstat}
 \title{Convert JSON-stat format to data frame(s)}
 \usage{
-fromJSONstat(x, naming = "label", use_factors = F)
+fromJSONstat(x, naming = "label", use_factors = FALSE)
 }
 \arguments{
 \item{x}{the JSON-stat format in characters (or R list equivalent)}

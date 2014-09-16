@@ -45,59 +45,59 @@ test_that("columns are correct", {
 
 test_that("factors are factors", {
     expect_that(fromJSONstat(salmon, naming  = "label",
-                             use_factors = T)[[1]][[1]], is_a("factor"))
+                             use_factors = TRUE)[[1]][[1]], is_a("factor"))
     expect_that(fromJSONstat(salmon, naming  = "id",
-                             use_factors = T)[[1]][[1]], is_a("factor"))
+                             use_factors = TRUE)[[1]][[1]], is_a("factor"))
     expect_that(fromJSONstat(salmon, naming  = "label",
-                             use_factors = T)[[1]][[2]], is_a("factor"))
+                             use_factors = TRUE)[[1]][[2]], is_a("factor"))
     expect_that(fromJSONstat(salmon, naming  = "id",
-                             use_factors = T)[[1]][[2]], is_a("factor"))
+                             use_factors = TRUE)[[1]][[2]], is_a("factor"))
     expect_that(fromJSONstat(salmon, naming  = "label",
-                             use_factors = T)[[1]][[3]], is_a("factor"))
+                             use_factors = TRUE)[[1]][[3]], is_a("factor"))
     expect_that(fromJSONstat(salmon, naming  = "id",
-                             use_factors = T)[[1]][[3]], is_a("factor"))
+                             use_factors = TRUE)[[1]][[3]], is_a("factor"))
 })
 
 test_that("factor levels are correct", {
     expect_that(nlevels(fromJSONstat(salmon, naming  = "label",
-                                     use_factors = T)[[1]][[1]]), equals(2))
+                                     use_factors = TRUE)[[1]][[1]]), equals(2))
     expect_that(levels(fromJSONstat(salmon, naming  = "label",
-                                     use_factors = T)[[1]][[1]]),
+                                     use_factors = TRUE)[[1]][[1]]),
                 equals(c("Fish-farm bred salmon, fresh or chilled",
                          "Fish-farm bred salmon, frozen")))
     expect_that(nlevels(fromJSONstat(salmon, naming  = "id",
-                                     use_factors = T)[[1]][[1]]), equals(2))
+                                     use_factors = TRUE)[[1]][[1]]), equals(2))
     expect_that(levels(fromJSONstat(salmon, naming  = "id",
-                                    use_factors = T)[[1]][[1]]),
+                                    use_factors = TRUE)[[1]][[1]]),
                 equals(c("01", "02")))
     expect_that(nlevels(fromJSONstat(salmon, naming  = "label",
-                                     use_factors = T)[[1]][[2]]), equals(2))
+                                     use_factors = TRUE)[[1]][[2]]), equals(2))
     expect_that(levels(fromJSONstat(salmon, naming  = "label",
-                                    use_factors = T)[[1]][[2]]),
+                                    use_factors = TRUE)[[1]][[2]]),
                 equals(c("2014U30", "2014U31")))
     expect_that(nlevels(fromJSONstat(salmon, naming  = "id",
-                                     use_factors = T)[[1]][[2]]), equals(2))
+                                     use_factors = TRUE)[[1]][[2]]), equals(2))
     expect_that(levels(fromJSONstat(salmon, naming  = "id",
-                                    use_factors = T)[[1]][[2]]),
+                                    use_factors = TRUE)[[1]][[2]]),
                 equals(c("2014U30", "2014U31")))
     expect_that(nlevels(fromJSONstat(salmon, naming  = "label",
-                                     use_factors = T)[[1]][[3]]), equals(2))
+                                     use_factors = TRUE)[[1]][[3]]), equals(2))
     expect_that(levels(fromJSONstat(salmon, naming  = "label",
-                                    use_factors = T)[[1]][[3]]),
+                                    use_factors = TRUE)[[1]][[3]]),
                 equals(c("Weight (tonnes)", "Price per kilo (NOK)")))
     expect_that(nlevels(fromJSONstat(salmon, naming  = "id",
-                                     use_factors = T)[[1]][[3]]), equals(2))
+                                     use_factors = TRUE)[[1]][[3]]), equals(2))
     expect_that(levels(fromJSONstat(salmon, naming  = "id",
-                                    use_factors = T)[[1]][[3]]),
+                                    use_factors = TRUE)[[1]][[3]]),
                 equals(c("Vekt", "Kilopris")))
 })
 
 test_that("factor integer codes are correct", {
-    expect_that(unclass(fromJSONstat(salmon, use_factors = T)[[1]][[1]]),
+    expect_that(unclass(fromJSONstat(salmon, use_factors = TRUE)[[1]][[1]]),
                 is_equivalent_to(c(1, 1, 1, 1, 2, 2, 2, 2)))
-    expect_that(unclass(fromJSONstat(salmon, use_factors = T)[[1]][[2]]),
+    expect_that(unclass(fromJSONstat(salmon, use_factors = TRUE)[[1]][[2]]),
                 is_equivalent_to(c(1, 1, 2, 2, 1, 1, 2, 2)))
-    expect_that(unclass(fromJSONstat(salmon, use_factors = T)[[1]][[3]]),
+    expect_that(unclass(fromJSONstat(salmon, use_factors = TRUE)[[1]][[3]]),
                 is_equivalent_to(c(1, 2, 1, 2, 1, 2, 1, 2)))
 })
 

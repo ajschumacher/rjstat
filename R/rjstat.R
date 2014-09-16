@@ -28,7 +28,7 @@ NULL
 #' results <- fromJSONstat(readLines(oecd.canada.url))
 #' names(results)
 #' }
-fromJSONstat <- function(x, naming = "label", use_factors = F) {
+fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
     assert_that(is.character(x))
     assert_that(length(x) > 0)
     if (length(x) > 1) {
@@ -37,7 +37,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = F) {
 
     assert_that(is.string(naming))
     if (!naming %in% c("label", "id")) {
-        stop('naming must be "label" or "id"', call. = F)
+        stop('naming must be "label" or "id"', call. = FALSE)
     }
 
     assert_that(is.flag(use_factors))
@@ -71,7 +71,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = F) {
 
     assert_that(are_equal(dataset$dimension$size,
                           vapply(dimension_categories, length, 0,
-                                 USE.NAMES = F)))
+                                 USE.NAMES = FALSE)))
 
     dimension_table <- Map(rep, dimension_categories, each = each,
                            length.out = n_rows)
@@ -200,11 +200,11 @@ toJSONstat <- function(x, value = "value", ...) {
     assert_that(nrow(dataset) > 0)
     assert_that(ncol(dataset) > 1)
     if (is.null(dataset[[value]])) {
-        stop("\"", value, "\" is not a column in dataset", call. = F)
+        stop("\"", value, "\" is not a column in dataset", call. = FALSE)
     }
     if (any(colnames(dataset) %in% c("id", "size", "role"))) {
         stop("\"id\", \"size\" and \"role\" are not allowed column names",
-             call. = F)
+             call. = FALSE)
     }
 
     i <- which(colnames(dataset) == value)
@@ -228,7 +228,7 @@ toJSONstat <- function(x, value = "value", ...) {
     attr(dimensions, "row.names") <- .set_row_names(length(dimensions[[1]]))
 
     if (!all(!duplicated(dimensions))) {
-        stop("non-value columns must constitute a unique ID", call. = F)
+        stop("non-value columns must constitute a unique ID", call. = FALSE)
     }
 
     dimension_sizes <- vapply(dimensions, nlevels, integer(1))
