@@ -1,0 +1,62 @@
+---
+title: "rjstat: read and write JSON-stat with R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rjstat: read and write JSON-stat with R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+Read and write data sets in the [JSON-stat](http://json-stat.org/) format.
+
+Installation
+------------
+
+```{r, eval=FALSE}
+library(devtools)
+install_github("rjstat", "ajschumacher")
+```
+
+Usage
+-----
+
+```{r, eval=FALSE}
+oecd.canada.url <- "http://json-stat.org/samples/oecd-canada.json"
+oecd.canada <- readLines(oecd.canada.url)
+```
+```{r, echo=FALSE}
+oecd.canada <- readLines("oecd-canada.json")
+```
+
+Read from JSON-stat to a list of data frames:
+
+```{r}
+library(rjstat)
+results <- fromJSONstat(oecd.canada)
+names(results)
+```
+
+You can also read in using the typically terser IDs rather than labels.
+
+```{r}
+results <- fromJSONstat(oecd.canada, naming="id")
+names(results)
+```
+
+Convert from a list of data frames to a JSON-stat string.
+(The data frames must have exactly one value column.)
+
+```{r}
+library(reshape)
+irises <- melt(cbind(iris, Specimen=rep(1:50, 3)),
+               id.vars=c("Species", "Specimen"))
+irisJSONstat <- toJSONstat(list(iris=irises))
+cat(substr(irisJSONstat, 1, 76))
+```
+
+You can successfully convert back and forth, but only for the features that
+make sense in both R and JSON-stat.
+
+```{r}
+head(fromJSONstat(irisJSONstat)[[1]])
+```

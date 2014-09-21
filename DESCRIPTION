@@ -17,4 +17,6 @@ Imports:
     assertthat
 Suggests:
     testthat,
-    reshape
+    reshape,
+    knitr
+VignetteBuilder: knitr
