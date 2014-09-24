@@ -13,10 +13,10 @@ Encoding: UTF-8
 URL: https://github.com/ajschumacher/rjstat
 BugReports: https://github.com/ajschumacher/rjstat/issues
 Imports:
-    jsonlite,
+    jsonlite (>= 0.9.8),
     assertthat
 Suggests:
-    testthat,
-    reshape,
+    testthat (>= 0.8),
+    reshape (>= 0.7),
     knitr
 VignetteBuilder: knitr
