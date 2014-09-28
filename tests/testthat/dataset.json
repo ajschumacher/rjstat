@@ -1,0 +1,49 @@
+{
+  "dataset": {
+    "label": "A dataset",
+    "source": "Random data",
+    "updated": "2014-09-29",
+    "value": [
+      1.23456789,
+      2.3456789,
+      3.456789,
+      4.56789
+    ],
+    "dimension": {
+      "id": [
+        "testdimension1",
+        "testdimension2"
+      ],
+      "size": [
+        2,
+        2
+      ],
+      "testdimension1": {
+        "label": "A dimension",
+        "category": {
+          "index": [
+            "testcategory11",
+            "testcategory12"
+          ],
+          "label": {
+            "testcategory11": "Category 11",
+            "testcategory12": "Category 12"
+          }
+        }
+      },
+      "testdimension2": {
+        "label": "Another dimension",
+        "category": {
+          "index": [
+            "testcategory21",
+            "testcategory22"
+          ],
+          "label": {
+            "testcategory21": "Category 21",
+            "testcategory22": "Category 22"
+          }
+        }
+      }
+    }
+  }
+}
