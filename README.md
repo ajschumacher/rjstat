@@ -6,7 +6,7 @@ Installation:
 
 ```s
 library(devtools)
-install_github("rjstat", "ajschumacher")
+install_github("ajschumacher/rjstat")
 ```
 
 Usage:
