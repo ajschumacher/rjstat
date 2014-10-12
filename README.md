@@ -1,6 +1,9 @@
 # rjstat: read and write JSON-stat with R
 
+[![Build Status](https://travis-ci.org/ajschumacher/rjstat.svg)](https://travis-ci.org/ajschumacher/rjstat)
+
 Read and write data sets in the [JSON-stat](http://json-stat.org/) format.
+
 
 ### Installation:
 
