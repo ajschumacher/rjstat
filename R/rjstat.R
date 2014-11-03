@@ -184,8 +184,8 @@ toJSONstat <- function(x, value = "value", ...) {
         i <- which(dataset_names == "")
         dataset_names[i] <- default_names[i]
         j <- which(duplicated(dataset_names))
-        dataset_names[j]  <- paste0(dataset_names[j]," (",
-                                    default_names[j], ")")
+        dataset_names[j] <- paste0(dataset_names[j], " (",
+                                   default_names[j], ")")
     }
 
     if (!identical(dataset_names, names(datasets))) {
