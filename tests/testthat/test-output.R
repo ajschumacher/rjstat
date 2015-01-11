@@ -101,9 +101,18 @@ test_that("sparse cubes give correct output", {
     expect_identical(toJSONstat(data.frame(V1 = c("a", "b"), V2 = c("A", "B"),
                                            value = 1:2)),
                      structure(txt, class = "json"))
-    expect_identical(fromJSONstat(txt),
-                     list(dataset = data.frame(V1 = c("a", "a", "b", "b"),
-                                               V2 = c("A", "B", "A", "B"),
-                                               value = c(1, NA, NA, 2),
-                                               stringsAsFactors = FALSE)))
+    expect_equal(fromJSONstat(txt),
+                 list(dataset = data.frame(V1 = c("a", "a", "b", "b"),
+                                           V2 = c("A", "B", "A", "B"),
+                                           value = c(1, NA, NA, 2),
+                                           stringsAsFactors = FALSE)))
+    txt2 <- "{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\",\"b\"]}},\"V2\":{\"category\":{\"index\":[\"A\",\"B\"]}},\"id\":[\"V1\",\"V2\"],\"size\":[2,2]},\"value\":{\"0\":true,\"3\":false}}}"
+    expect_identical(toJSONstat(data.frame(V1 = c("a", "b"), V2 = c("A", "B"),
+                                           value = c(TRUE, FALSE))),
+                     structure(txt2, class = "json"))
+    expect_equal(fromJSONstat(txt2),
+                 list(dataset = data.frame(V1 = c("a", "a", "b", "b"),
+                                           V2 = c("A", "B", "A", "B"),
+                                           value = c(TRUE, NA, NA, FALSE),
+                                           stringsAsFactors = FALSE)))
 })
