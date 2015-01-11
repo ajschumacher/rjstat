@@ -208,22 +208,13 @@ toJSONstat <- function(x, value = "value", ...) {
     }
 
     i <- which(colnames(dataset) == value)
-    if (ncol(dataset) > 2) {
-        dimensions <- lapply(dataset[, -i], function(dimension) {
-            if (is.factor(dimension)) {
-                dimension
-            } else {
-                factor(dimension)
-            }
-        })
-    } else {
-        if (is.factor(dataset[, -i])) {
-            dimensions <- list(dataset[, -i])
+    dimensions <- lapply(dataset[, -i, drop = FALSE], function(dimension) {
+        if (is.factor(dimension)) {
+            dimension
         } else {
-            dimensions <- list(factor(dataset[, -i]))
+            factor(dimension)
         }
-        names(dimensions) <- colnames(dataset)[-i]
-    }
+    })
     class(dimensions) <- "data.frame"
     attr(dimensions, "row.names") <- .set_row_names(length(dimensions[[1]]))
 
