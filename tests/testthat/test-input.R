@@ -9,17 +9,25 @@ test_that("wrong input fails", {
     expect_error(fromJSONstat(txt, 1), "is not a string")
     expect_error(fromJSONstat(txt, letters), "is not a string")
     expect_error(fromJSONstat(txt, "a"), "naming must be \"label\" or \"id\"")
+    expect_error(fromJSONstat(txt, use_factors = "a"), "is not a flag")
+    expect_error(fromJSONstat(txt, use_factors = NA),
+                 "contains 1 missing values")
     expect_error(toJSONstat(1), "(?:.*is not a data frame)(?:.* is not a list)")
     expect_error(toJSONstat(fromJSONstat(txt), letters), "is not a string")
+    expect_error(toJSONstat(list()), "not greater than 0")
     expect_error(toJSONstat(list(1)), "is not a data frame")
-    expect_error(toJSONstat(non_unique),
-                 "non-value columns must constitute a unique ID")
+    expect_error(toJSONstat(data.frame()), "not greater than 0")
+    expect_error(toJSONstat(data.frame(value = 1)), "not greater than 1")
+    expect_error(toJSONstat(fromJSONstat(txt), "a"),
+                 "is not a column in dataset")
     expect_error(toJSONstat(data.frame(value = 1, id = 1)),
                  "not allowed column names")
     expect_error(toJSONstat(data.frame(value = 1, size = 1)),
                  "not allowed column names")
     expect_error(toJSONstat(data.frame(value = 1, role = 1)),
                  "not allowed column names")
+    expect_error(toJSONstat(non_unique),
+                 "non-value columns must constitute a unique ID")
 })
 
 test_that("round-trip works", {
