@@ -5,6 +5,14 @@ dataset <- readLines("dataset.json")
 test_that("dataset names are correct", {
     expect_named(fromJSONstat(dataset, naming = "label"), "A dataset")
     expect_named(fromJSONstat(dataset, naming = "id"), "dataset")
+    d <- data.frame(V1 = "a", value = 1)
+    expect_named(fromJSONstat(toJSONstat(d)), "dataset")
+    expect_named(fromJSONstat(toJSONstat(list(d, d))), c("dataset", "dataset2"))
+    expect_named(fromJSONstat(toJSONstat(list(a = d, d))), c("a", "dataset2"))
+    expect_named(fromJSONstat(toJSONstat(list(d, b = d))), c("dataset", "b"))
+    expect_named(fromJSONstat(toJSONstat(list(a = d, b = d))), c("a", "b"))
+    expect_named(fromJSONstat(toJSONstat(list(a = d, a = d))),
+                 c("a", "a (dataset2)"))
 })
 
 test_that("column names are correct", {
