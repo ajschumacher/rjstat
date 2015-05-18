@@ -200,15 +200,9 @@ toJSONstat <- function(x, value = "value", ...) {
     }
 
     i <- which(colnames(dataset) == value)
-    dimensions <- lapply(dataset[, -i, drop = FALSE], function(dimension) {
-        if (is.factor(dimension)) {
-            dimension
-        } else {
-            factor(dimension)
-        }
-    })
-    class(dimensions) <- "data.frame"
-    attr(dimensions, "row.names") <- .set_row_names(length(dimensions[[1]]))
+    dimensions <- dataset[-i]
+    j <- !vapply(dimensions, is.factor, logical(1))
+    dimensions[j] <- lapply(dimensions[j], factor)
 
     if (!all(!duplicated(dimensions))) {
         stop("non-value columns must constitute a unique ID", call. = FALSE)
