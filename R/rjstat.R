@@ -204,7 +204,7 @@ toJSONstat <- function(x, value = "value", ...) {
     j <- !vapply(dimensions, is.factor, logical(1))
     dimensions[j] <- lapply(dimensions[j], factor)
 
-    if (!all(!duplicated(dimensions))) {
+    if (any(duplicated(dimensions))) {
         stop("non-value columns must constitute a unique ID", call. = FALSE)
     }
 
