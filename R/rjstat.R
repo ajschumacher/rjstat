@@ -204,10 +204,6 @@ toJSONstat <- function(x, value = "value", ...) {
     j <- !vapply(dimensions, is.factor, logical(1))
     dimensions[j] <- lapply(dimensions[j], factor)
 
-    if (any(duplicated(dimensions))) {
-        stop("non-value columns must constitute a unique ID", call. = FALSE)
-    }
-
     dimension_sizes <- vapply(dimensions, nlevels, integer(1))
     dimension_ids <- names(dimensions)
     categories <- lapply(dimensions, function(dimension) {
@@ -229,7 +225,9 @@ toJSONstat <- function(x, value = "value", ...) {
     sort_index <- Reduce(`+`, sort_table) + 1L
     attributes(sort_index) <- NULL
 
-    assert_that(!any(duplicated(sort_index)))
+    if (any(duplicated(sort_index))) {
+        stop("non-value columns must constitute a unique ID", call. = FALSE)
+    }
 
     n <- prod(dimension_sizes)
     values <- dataset[[value]]
