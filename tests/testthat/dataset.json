@@ -12,35 +12,45 @@
     "dimension": {
       "id": [
         "testdimension1",
-        "testdimension2"
+        "testdimension2",
+        "testdimension3"
       ],
       "size": [
         2,
-        2
+        2,
+        1
       ],
       "testdimension1": {
-        "label": "A dimension",
+        "label": "A dimension with array index",
         "category": {
           "index": [
             "testcategory11",
             "testcategory12"
           ],
           "label": {
-            "testcategory11": "Category 11",
-            "testcategory12": "Category 12"
+            "testcategory12": "Category 12",
+            "testcategory11": "Category 11"
           }
         }
       },
       "testdimension2": {
-        "label": "Another dimension",
+        "label": "A dimension with object index",
         "category": {
-          "index": [
-            "testcategory21",
-            "testcategory22"
-          ],
+          "index": {
+            "testcategory22": 1,
+            "testcategory21": 0
+          },
           "label": {
-            "testcategory21": "Category 21",
-            "testcategory22": "Category 22"
+            "testcategory22": "Category 22",
+            "testcategory21": "Category 21"
+          }
+        }
+      },
+      "testdimension3": {
+        "label": "A dimension without index",
+        "category": {
+          "label": {
+            "testcategory3": "Category 3"
           }
         }
       }

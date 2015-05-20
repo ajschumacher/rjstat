@@ -114,13 +114,19 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
         } else {
             categories <- names(categories)
         }
-    } else {
-        categories <- names(index)
-        if (is.null(categories)) {
-            categories <- index
-        }
+    } else if (is.list(index)) {
+        categories <- sort(unlist(index))
         if (!is.null(labels) && identical(naming, "label")) {
-            categories <- unname(unlist(labels))
+            labels <- unlist(labels)
+            categories[names(labels)] <- labels
+            categories <- unname(categories)
+        } else {
+            categories <- names(categories)
+        }
+    } else {
+        categories <- index
+        if (!is.null(labels) && identical(naming, "label")) {
+            categories <- unname(unlist(labels)[categories])
         }
     }
     assert_that(!is.null(categories))

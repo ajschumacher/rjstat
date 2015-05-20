@@ -17,9 +17,12 @@ test_that("dataset names are correct", {
 
 test_that("column names are correct", {
     expect_named(fromJSONstat(dataset, naming = "label")[[1]],
-                 c("A dimension", "Another dimension", "value"))
+                 c("A dimension with array index",
+                   "A dimension with object index",
+                   "A dimension without index", "value"))
     expect_named(fromJSONstat(dataset, naming = "id")[[1]],
-                 c("testdimension1", "testdimension2", "value"))
+                 c("testdimension1", "testdimension2",
+                   "testdimension3", "value"))
 })
 
 test_that("columns are correct", {
@@ -28,11 +31,18 @@ test_that("columns are correct", {
     expect_equal(fromJSONstat(dataset, naming = "id")[[1]][[1]],
                  c("testcategory11", "testcategory11", "testcategory12",
                    "testcategory12"))
+
     expect_equal(fromJSONstat(dataset, naming = "label")[[1]][[2]],
                  c("Category 21", "Category 22", "Category 21", "Category 22"))
     expect_equal(fromJSONstat(dataset, naming = "id")[[1]][[2]],
                  c("testcategory21", "testcategory22", "testcategory21",
                    "testcategory22"))
+
+    expect_equal(fromJSONstat(dataset, naming = "label")[[1]][[3]],
+                 c("Category 3", "Category 3", "Category 3", "Category 3"))
+    expect_equal(fromJSONstat(dataset, naming = "id")[[1]][[3]],
+                 c("testcategory3", "testcategory3", "testcategory3",
+                   "testcategory3"))
 })
 
 test_that("factors are factors", {
@@ -42,11 +52,19 @@ test_that("factors are factors", {
     expect_is(fromJSONstat(dataset, naming = "id",
                            use_factors = TRUE)[[1]][[1]],
               "factor")
+
     expect_is(fromJSONstat(dataset, naming = "label",
                            use_factors = TRUE)[[1]][[2]],
               "factor")
     expect_is(fromJSONstat(dataset, naming = "id",
                            use_factors = TRUE)[[1]][[2]],
+              "factor")
+
+    expect_is(fromJSONstat(dataset, naming = "label",
+                           use_factors = TRUE)[[1]][[3]],
+              "factor")
+    expect_is(fromJSONstat(dataset, naming = "id",
+                           use_factors = TRUE)[[1]][[3]],
               "factor")
 })
 
@@ -63,6 +81,7 @@ test_that("factor levels are correct", {
     expect_equal(levels(fromJSONstat(dataset, naming = "id",
                                      use_factors = TRUE)[[1]][[1]]),
                  c("testcategory11", "testcategory12"))
+
     expect_equal(nlevels(fromJSONstat(dataset, naming = "label",
                                       use_factors = TRUE)[[1]][[2]]),
                  2)
@@ -75,6 +94,19 @@ test_that("factor levels are correct", {
     expect_equal(levels(fromJSONstat(dataset, naming = "id",
                                      use_factors = TRUE)[[1]][[2]]),
                  c("testcategory21", "testcategory22"))
+
+    expect_equal(nlevels(fromJSONstat(dataset, naming = "label",
+                                      use_factors = TRUE)[[1]][[3]]),
+                 1)
+    expect_equal(levels(fromJSONstat(dataset, naming = "label",
+                                     use_factors = TRUE)[[1]][[3]]),
+                 "Category 3")
+    expect_equal(nlevels(fromJSONstat(dataset, naming = "id",
+                                      use_factors = TRUE)[[1]][[3]]),
+                 1)
+    expect_equal(levels(fromJSONstat(dataset, naming = "id",
+                                     use_factors = TRUE)[[1]][[3]]),
+                 "testcategory3")
 })
 
 test_that("factor integer codes are correct", {
@@ -84,6 +116,9 @@ test_that("factor integer codes are correct", {
     expect_equivalent(unclass(fromJSONstat(dataset,
                                            use_factors = TRUE)[[1]][[2]]),
                       c(1, 2, 1, 2))
+    expect_equivalent(unclass(fromJSONstat(dataset,
+                                           use_factors = TRUE)[[1]][[3]]),
+                      c(1, 1, 1, 1))
 })
 
 test_that("values are correct", {
