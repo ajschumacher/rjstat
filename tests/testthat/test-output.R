@@ -89,6 +89,8 @@ test_that("factor integer codes are correct", {
 test_that("values are correct", {
     expect_equal(fromJSONstat(dataset)[[1]]$value,
                  c(1.23456789, 2.3456789, 3.456789, 4.56789))
+    d <- data.frame(V1 = rev(letters), value = 1:26)
+    expect_equal(fromJSONstat(toJSONstat(d))[[1]]$value, 26:1)
 })
 
 test_that("attributes are correct", {
@@ -96,6 +98,10 @@ test_that("attributes are correct", {
                  "Random data")
     expect_equal(attr(fromJSONstat(dataset)[[1]], "updated"),
                  "2014-09-29")
+    expect_match(toJSONstat(fromJSONstat(dataset)),
+                 "\"source\":\"Random data\"")
+    expect_match(toJSONstat(fromJSONstat(dataset)),
+                 "\"updated\":\"2014-09-29\"")
 })
 
 test_that("single-dimension input gives correct output", {
