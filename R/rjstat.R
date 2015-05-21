@@ -57,19 +57,20 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
 }
 
 .parse_dataset <- function(dataset, naming, use_factors) {
-    n_rows <- prod(dataset$dimension$size)
+    sizes <- as.integer(dataset$dimension$size)
+    n_rows <- prod(sizes)
 
     dimension_ids <- dataset$dimension$id
     assert_that(!is.null(dimension_ids))
     dimensions <- dataset$dimension[dimension_ids]
     dimension_labels <- unlist(lapply(dimensions, getElement, "label"))
 
-    each <- c(rev(cumprod(rev(dataset$dimension$size))), 1)[-1]
+    each <- c(rev(cumprod(rev(sizes))), 1)[-1]
 
     dimension_categories <- lapply(dimensions, .parse_dimension,
                                    naming, use_factors)
 
-    assert_that(are_equal(dataset$dimension$size,
+    assert_that(are_equal(sizes,
                           vapply(dimension_categories, length, 0,
                                  USE.NAMES = FALSE)))
 
