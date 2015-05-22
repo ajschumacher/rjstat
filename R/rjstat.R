@@ -85,13 +85,15 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
 
     value <- dataset$value
     if (is.list(value)) {
-        value <- unlist(value)
         v <- rep(NA, n_rows)
-        names(v) <- seq_along(v) - 1
         i <- as.integer(names(value)) + 1
         assert_that(max(i) <= n_rows, min(i) > 0)
-        v[names(value)] <- value
-        value <- unname(v)
+        for (j in 1:length(i)) {
+            if (!is.null(value[[j]])) {
+                v[i[j]] <- value[[j]]
+            }
+        }
+        value <- v
     }
 
     data_frame <- c(dimension_table, list(value = value))
