@@ -89,9 +89,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
         v <- rep(NA, n_rows)
         i <- as.integer(names(value)) + 1
         assert_that(max(i) <= n_rows, min(i) > 0)
-        for (j in 1:length(i)) {
-            v[i[j]] <- value[j]
-        }
+        v[i] <- value
         value <- v
     }
 
