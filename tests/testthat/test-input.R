@@ -18,6 +18,7 @@ test_that("wrong input fails", {
     expect_error(toJSONstat(list(1)), "is not a data frame")
     expect_error(toJSONstat(data.frame()), "not greater than 0")
     expect_error(toJSONstat(data.frame(value = 1)), "not greater than 1")
+    expect_error(toJSONstat(data.frame(value = 1, V1 = NA)), "missing values")
     expect_error(toJSONstat(fromJSONstat(txt), "a"),
                  "is not a column in dataset")
     expect_error(toJSONstat(data.frame(value = 1, id = 1)),

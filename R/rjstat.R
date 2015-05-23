@@ -202,6 +202,7 @@ toJSONstat <- function(x, value = "value", ...) {
 
     i <- which(colnames(dataset) == value)
     dimensions <- dataset[-i]
+    assert_that(noNA(dimensions))
     j <- !vapply(dimensions, is.factor, logical(1))
     dimensions[j] <- lapply(dimensions[j], factor)
 
