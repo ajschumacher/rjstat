@@ -172,22 +172,17 @@ toJSONstat <- function(x, value = "value", ...) {
 
     datasets <- lapply(x, .unravel_dataset, value)
 
-    dataset_names <- names(datasets)
     default_names <- paste0("dataset", 1:length(datasets))
     default_names[1] <- "dataset"
 
-    if (is.null(dataset_names)) {
-        dataset_names <- default_names
+    if (is.null(names(datasets))) {
+        names(datasets) <- default_names
     } else {
-        i <- which(dataset_names == "")
-        dataset_names[i] <- default_names[i]
-        j <- which(duplicated(dataset_names))
-        dataset_names[j] <- paste0(dataset_names[j], " (",
-                                   default_names[j], ")")
-    }
-
-    if (!identical(dataset_names, names(datasets))) {
-        names(datasets) <- dataset_names
+        i <- which(names(datasets) == "")
+        names(datasets)[i] <- default_names[i]
+        j <- which(duplicated(names(datasets)))
+        names(datasets)[j] <- paste0(names(datasets)[j], " (",
+                                     default_names[j], ")")
     }
 
     toJSON(datasets, na = "null", ...)
