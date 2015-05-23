@@ -31,3 +31,18 @@ test_that("columns are correct", {
                  c("testcategory3", "testcategory3", "testcategory3",
                    "testcategory3"))
 })
+
+test_that("column names are correct for missing labels", {
+    expect_named(fromJSONstat(dataset[-24], naming = "label")[[1]],
+                 c("testdimension1", "A dimension with object index",
+                   "A dimension without index", "value"))
+})
+
+test_that("columns are correct for missing labels", {
+    expect_equal(fromJSONstat(dataset[-31], naming = "label")[[1]][[1]],
+                 c("testcategory11", "testcategory11", "testcategory12",
+                   "testcategory12"))
+    expect_equal(fromJSONstat(dataset[-44], naming = "label")[[1]][[2]],
+                 c("testcategory21", "testcategory22", "testcategory21",
+                   "testcategory22"))
+})

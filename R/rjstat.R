@@ -49,8 +49,9 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
 
     datasets <- lapply(x, .parse_dataset, naming, use_factors)
 
-    if (identical(naming, "label") && !is.null(dataset_labels)) {
-        names(datasets) <- dataset_labels
+    if (identical(naming, "label")) {
+        i <- which(names(datasets) %in% names(dataset_labels))
+        names(datasets)[i] <- dataset_labels
     }
 
     datasets
@@ -77,10 +78,9 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
     dimension_table <- Map(rep, dimension_categories, each = each,
                            length.out = n_rows)
 
-    if (identical(naming, "label") && !is.null(dimension_labels)) {
-        names(dimension_table) <- dimension_labels
-    } else {
-        names(dimension_table) <- dimension_ids
+    if (identical(naming, "label")) {
+        i <- which(names(dimension_table) %in% names(dimension_labels))
+        names(dimension_table)[i] <- dimension_labels
     }
 
     value <- dataset$value
@@ -114,7 +114,8 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
         }
     } else if (is.list(index)) {
         categories <- sort(unlist(index))
-        if (!is.null(labels) && identical(naming, "label")) {
+        if (identical(naming, "label") && identical(length(labels),
+                                                    length(categories))) {
             labels <- unlist(labels)
             categories[names(labels)] <- labels
             categories <- unname(categories)
@@ -123,7 +124,8 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
         }
     } else {
         categories <- index
-        if (!is.null(labels) && identical(naming, "label")) {
+        if (identical(naming, "label") && identical(length(labels),
+                                                    length(categories))) {
             categories <- unname(unlist(labels)[categories])
         }
     }

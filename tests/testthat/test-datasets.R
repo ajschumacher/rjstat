@@ -15,3 +15,8 @@ test_that("dataset names are correct", {
     expect_named(fromJSONstat(toJSONstat(list(a = d, a = d))),
                  c("a", "a (dataset2)"))
 })
+
+test_that("dataset names are correct for missing labels", {
+    expect_named(fromJSONstat(dataset[-3], naming = "label"),
+                 c("dataset", "A dataset with object value"))
+})
