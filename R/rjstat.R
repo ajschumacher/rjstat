@@ -195,12 +195,12 @@ toJSONstat <- function(x, value = "value", ...) {
     if (is.null(dataset[[value]])) {
         stop("\"", value, "\" is not a column in dataset", call. = FALSE)
     }
-    if (any(colnames(dataset) %in% c("id", "size", "role"))) {
+    if (any(names(dataset) %in% c("id", "size", "role"))) {
         stop("\"id\", \"size\" and \"role\" are not allowed column names",
              call. = FALSE)
     }
 
-    i <- which(colnames(dataset) == value)
+    i <- which(names(dataset) == value)
     dimensions <- dataset[-i]
     assert_that(noNA(dimensions))
     j <- !vapply(dimensions, is.factor, logical(1))
