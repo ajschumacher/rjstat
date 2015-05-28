@@ -26,6 +26,12 @@ test_that("wrong input fails", {
                  "not allowed column names")
     expect_error(toJSONstat(data.frame(value = 1, role = 1)),
                  "not allowed column names")
+    expect_error(toJSONstat(data.frame(value = 1, value = 1,
+                                       check.names = FALSE)),
+                 "duplicated column names")
+    expect_error(toJSONstat(data.frame(value = 1, V1 = "a", V1 = "a",
+                                       check.names = FALSE)),
+                 "duplicated column names")
     expect_error(toJSONstat(non_unique),
                  "non-value columns must constitute a unique ID")
 })

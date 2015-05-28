@@ -63,6 +63,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
 
     dimension_ids <- dataset$dimension$id
     assert_that(!is.null(dimension_ids))
+    assert_that(!any(duplicated(dimension_ids)))
     dimensions <- dataset$dimension[dimension_ids]
     dimension_labels <- unlist(lapply(dimensions, getElement, "label"))
 
@@ -198,6 +199,9 @@ toJSONstat <- function(x, value = "value", ...) {
     if (any(names(dataset) %in% c("id", "size", "role"))) {
         stop("\"id\", \"size\" and \"role\" are not allowed column names",
              call. = FALSE)
+    }
+    if (any(duplicated(names(dataset)))) {
+        stop("duplicated column names", call. = FALSE)
     }
 
     i <- which(names(dataset) == value)
