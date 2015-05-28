@@ -10,8 +10,7 @@ test_that("wrong input fails", {
     expect_error(fromJSONstat(txt, letters), "is not a string")
     expect_error(fromJSONstat(txt, "a"), "naming must be \"label\" or \"id\"")
     expect_error(fromJSONstat(txt, use_factors = "a"), "is not a flag")
-    expect_error(fromJSONstat(txt, use_factors = NA),
-                 "contains 1 missing values")
+    expect_error(fromJSONstat(txt, use_factors = NA), "missing values")
     expect_error(toJSONstat(1), "(?:.*is not a data frame)(?:.* is not a list)")
     expect_error(toJSONstat(fromJSONstat(txt), letters), "is not a string")
     expect_error(toJSONstat(list()), "not greater than 0")
