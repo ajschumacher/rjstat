@@ -207,6 +207,9 @@ toJSONstat <- function(x, value = "value", ...) {
     if (any(!vapply(dataset, is.atomic, logical(1)))) {
         stop("all columns must be atomic", call. = FALSE)
     }
+    if (any(vapply(dataset, is.raw, logical(1)))) {
+        stop("columns can't be of type \"raw\"", call. = FALSE)
+    }
 
     i <- which(names(dataset) == value)
     dimensions <- dataset[-i]

@@ -36,6 +36,10 @@ test_that("wrong input fails", {
                  "all columns must be atomic")
     expect_error(toJSONstat(data.frame(value = 1, V1 = I(list(letters)))),
                  "all columns must be atomic")
+    expect_error(toJSONstat(data.frame(value = as.raw(1:2), V1 = 1:2)),
+                 "columns can't be of type \"raw\"")
+    expect_error(toJSONstat(data.frame(value = 1:2, V1 = as.raw(1:2))),
+                 "columns can't be of type \"raw\"")
     expect_error(toJSONstat(non_unique),
                  "non-value columns must constitute a unique ID")
 })
