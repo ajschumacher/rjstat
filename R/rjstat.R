@@ -93,6 +93,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
         v[i] <- value
         value <- v
     }
+    assert_that(are_equal(length(value), n_rows))
 
     data_frame <- c(dimension_table, list(value = value))
     class(data_frame) <- "data.frame"
