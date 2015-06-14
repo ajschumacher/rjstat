@@ -84,24 +84,24 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
         names(dimension_table)[i] <- dimension_labels
     }
 
-    value <- dataset$value
-    if (is.list(value)) {
-        value <- unlist(value)
+    values <- dataset$value
+    if (is.list(values)) {
+        values <- unlist(values)
         v <- rep(NA, n_rows)
-        i <- as.integer(names(value)) + 1
+        i <- as.integer(names(values)) + 1
         assert_that(max(i) <= n_rows, min(i) > 0)
-        v[i] <- value
-        value <- v
+        v[i] <- values
+        values <- v
     }
-    assert_that(are_equal(length(value), n_rows))
+    assert_that(are_equal(length(values), n_rows))
 
-    data_frame <- c(dimension_table, list(value = value))
-    class(data_frame) <- "data.frame"
-    attr(data_frame, "row.names") <- .set_row_names(length(data_frame[[1]]))
+    dataframe <- c(dimension_table, list(value = values))
+    class(dataframe) <- "data.frame"
+    attr(dataframe, "row.names") <- .set_row_names(length(dataframe[[1]]))
 
-    attr(data_frame, "source") <- dataset$source
-    attr(data_frame, "updated") <- dataset$updated
-    data_frame
+    attr(dataframe, "source") <- dataset$source
+    attr(dataframe, "updated") <- dataset$updated
+    dataframe
 }
 
 .parse_dimension <- function(dimension, naming, use_factors) {
