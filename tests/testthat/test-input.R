@@ -32,6 +32,10 @@ test_that("wrong input fails", {
     expect_error(toJSONstat(data.frame(value = 1, V1 = "a", V1 = "a",
                                        check.names = FALSE)),
                  "duplicated column names")
+    expect_error(toJSONstat(data.frame(value = I(list(1:2)), V1 = "a")),
+                 "all columns must be atomic")
+    expect_error(toJSONstat(data.frame(value = 1, V1 = I(list(letters)))),
+                 "all columns must be atomic")
     expect_error(toJSONstat(non_unique),
                  "non-value columns must constitute a unique ID")
 })

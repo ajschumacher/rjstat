@@ -203,6 +203,9 @@ toJSONstat <- function(x, value = "value", ...) {
     if (any(duplicated(names(dataset)))) {
         stop("duplicated column names", call. = FALSE)
     }
+    if (any(!vapply(dataset, is.atomic, logical(1)))) {
+        stop("all columns must be atomic", call. = FALSE)
+    }
 
     i <- which(names(dataset) == value)
     dimensions <- dataset[-i]
