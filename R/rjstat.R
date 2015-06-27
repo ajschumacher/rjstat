@@ -228,15 +228,13 @@ toJSONstat <- function(x, value = "value", ...) {
                              size = dimension_sizes))
 
     dim_factors <- c(rev(cumprod(rev(dimension_sizes)))[-1], 1)
-    dim_factors <- as.integer(dim_factors)
 
     sort_table <- lapply(dimensions, function(dimension) {
-        unclass(dimension) - 1L
+        unclass(dimension) - 1
     })
     sort_table <- Map(`*`, sort_table, dim_factors)
 
-    sort_index <- Reduce(`+`, sort_table) + 1L
-    attributes(sort_index) <- NULL
+    sort_index <- Reduce(`+`, sort_table) + 1
 
     if (any(duplicated(sort_index))) {
         stop("non-value columns must constitute a unique ID", call. = FALSE)
@@ -245,9 +243,7 @@ toJSONstat <- function(x, value = "value", ...) {
     n <- prod(dimension_sizes)
     values <- dataset[[value]]
     if (length(values) == n) {
-        if (!identical(sort_index, 1:n)) {
-            values[sort_index] <- values
-        }
+        values[sort_index] <- values
     } else {
         values <- lapply(values, unbox)
         names(values) <- sort_index - 1
