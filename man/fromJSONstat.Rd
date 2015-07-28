@@ -7,7 +7,7 @@
 fromJSONstat(x, naming = "label", use_factors = FALSE)
 }
 \arguments{
-\item{x}{the JSON-stat format in characters (or R list equivalent)}
+\item{x}{the JSON-stat format in characters (or path or URL)}
 
 \item{naming}{whether to use (longer) \code{label}s or (shorter) \code{id}s}
 
@@ -15,14 +15,14 @@ fromJSONstat(x, naming = "label", use_factors = FALSE)
   character objects}
 }
 \description{
-This function takes characters of a JSON-stat format response (or the
-corresponding R list equivalent) and returns a list of data frames with
+This function takes characters of a JSON-stat format response (or path
+or URL to such a response) and returns a list of data frames with
 columns for each dimension and one \code{value} column.
 }
 \examples{
 \dontrun{
 oecd.canada.url <- "http://json-stat.org/samples/oecd-canada.json"
-results <- fromJSONstat(readLines(oecd.canada.url))
+results <- fromJSONstat(oecd.canada.url)
 names(results)
 }
 }
