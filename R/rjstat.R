@@ -31,9 +31,6 @@ NULL
 fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
     assert_that(is.character(x))
     assert_that(length(x) > 0)
-    if (length(x) > 1) {
-        x <- paste(x, collapse = " ")
-    }
 
     assert_that(is.string(naming))
     if (!naming %in% c("label", "id")) {
