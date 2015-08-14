@@ -1,6 +1,6 @@
 context("Attributes")
 
-dataset <- readLines("dataset.json")
+dataset <- readLines("bundle.json")
 
 test_that("attributes are correct", {
     expect_equal(attr(fromJSONstat(dataset)[[1]], "source"),

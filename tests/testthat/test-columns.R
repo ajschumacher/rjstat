@@ -1,6 +1,6 @@
 context("Columns")
 
-dataset <- readLines("dataset.json")
+dataset <- readLines("bundle.json")
 
 test_that("column names are correct", {
     expect_named(fromJSONstat(dataset, naming = "label")[[1]],

@@ -1,6 +1,6 @@
 context("Datasets")
 
-dataset <- readLines("dataset.json")
+dataset <- readLines("bundle.json")
 
 test_that("dataset names are correct", {
     expect_named(fromJSONstat(dataset, naming = "label"),

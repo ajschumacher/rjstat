@@ -1,6 +1,6 @@
 context("Values")
 
-dataset <- readLines("dataset.json")
+dataset <- readLines("bundle.json")
 
 test_that("values are correct", {
     expect_equal(fromJSONstat(dataset)[[1]]$value,

@@ -1,6 +1,6 @@
 context("Factors")
 
-dataset <- readLines("dataset.json")
+dataset <- readLines("bundle.json")
 
 test_that("factors are factors", {
     expect_is(fromJSONstat(dataset, naming = "label",
