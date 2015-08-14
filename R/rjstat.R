@@ -42,6 +42,10 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
 
     x <- fromJSON(x)
 
+    if (identical(x$class, "dataset")) {
+        x <- list(dataset = x)
+    }
+
     dataset_labels <- unlist(lapply(x, getElement, "label"))
 
     datasets <- lapply(x, .parse_dataset, naming, use_factors)

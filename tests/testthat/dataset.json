@@ -1,0 +1,26 @@
+{
+  "class": "dataset",
+  "label": "A dataset",
+  "value": [
+    1
+  ],
+  "dimension": {
+    "id": [
+      "testdimension"
+    ],
+    "size": [
+      1
+    ],
+    "testdimension": {
+      "label": "A dimension",
+      "category": {
+        "index": [
+          "testcategory"
+        ],
+        "label": {
+          "testcategory": "A category"
+        }
+      }
+    }
+  }
+}
