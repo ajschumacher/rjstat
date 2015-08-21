@@ -46,13 +46,10 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
         x <- list(dataset = x)
     }
 
-    dataset_labels <- unlist(lapply(x, getElement, "label"))
-
     datasets <- lapply(x, .parse_dataset, naming, use_factors)
 
     if (identical(naming, "label")) {
-        i <- which(names(datasets) %in% names(dataset_labels))
-        names(datasets)[i] <- dataset_labels
+        names(datasets) <- .get_labels(x)
     }
 
     datasets
@@ -66,7 +63,6 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
     assert_that(!is.null(dimension_ids))
     assert_that(!any(duplicated(dimension_ids)))
     dimensions <- dataset$dimension[dimension_ids]
-    dimension_labels <- unlist(lapply(dimensions, getElement, "label"))
 
     each <- c(rev(cumprod(rev(sizes))), 1)[-1]
 
@@ -81,8 +77,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
                            length.out = n_rows)
 
     if (identical(naming, "label")) {
-        i <- which(names(dimension_table) %in% names(dimension_labels))
-        names(dimension_table)[i] <- dimension_labels
+        names(dimension_table) <- .get_labels(dimensions)
     }
 
     values <- dataset$value
@@ -137,6 +132,13 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
         categories <- factor(categories, levels = categories)
     }
     categories
+}
+
+.get_labels <- function(x) {
+    labels <- lapply(x, getElement, "label")
+    i <- vapply(labels, is.null, logical(1))
+    labels[i] <- names(labels)[i]
+    as.character(labels)
 }
 
 #' Convert data frame(s) to JSON-stat format
