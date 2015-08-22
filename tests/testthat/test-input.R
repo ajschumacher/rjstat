@@ -4,8 +4,6 @@ non_unique <- data.frame(V1 = c("a", "a"), V2 = c("b", "b"), value = 1:2)
 txt <- "{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\"]}},\"id\":[\"V1\"],\"size\":[1]},\"value\":[1]}}"
 
 test_that("wrong input fails", {
-    expect_error(fromJSONstat(1), "is not a character vector")
-    expect_error(fromJSONstat(character(0)), "not greater than 0")
     expect_error(fromJSONstat(txt, 1), "is not a string")
     expect_error(fromJSONstat(txt, letters), "is not a string")
     expect_error(fromJSONstat(txt, "a"), "naming must be \"label\" or \"id\"")

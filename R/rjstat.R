@@ -29,9 +29,6 @@ NULL
 #' names(results)
 #' }
 fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
-    assert_that(is.character(x))
-    assert_that(length(x) > 0)
-
     assert_that(is.string(naming))
     if (!naming %in% c("label", "id")) {
         stop('naming must be "label" or "id"', call. = FALSE)
