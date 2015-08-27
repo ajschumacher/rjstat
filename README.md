@@ -7,7 +7,7 @@ Read and write data sets in the [JSON-stat](http://json-stat.org/) format.
 
 ### Installation:
 
-[From CRAN](http://cran.r-project.org/web/packages/rjstat/) (most people use this):
+[From CRAN](http://cran.r-project.org/package=rjstat) (most people use this):
 
 ```s
 install.packages('rjstat')
