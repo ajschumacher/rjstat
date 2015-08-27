@@ -61,21 +61,18 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
     assert_that(!any(duplicated(dimension_ids)))
     dimensions <- dataset$dimension[dimension_ids]
 
-    each <- c(rev(cumprod(rev(sizes))), 1)[-1]
-
-    dimension_categories <- lapply(dimensions, .parse_dimension,
-                                   naming, use_factors)
+    dimension_categories <- lapply(dimensions, .parse_dimension, naming)
 
     assert_that(are_equal(sizes,
                           vapply(dimension_categories, length, 0,
                                  USE.NAMES = FALSE)))
 
-    dimension_table <- Map(rep, dimension_categories, each = each,
-                           length.out = n_rows)
-
     if (identical(naming, "label")) {
-        names(dimension_table) <- .get_labels(dimensions)
+        names(dimension_categories) <- .get_labels(dimensions)
     }
+
+    dataframe <- rev(expand.grid(rev(dimension_categories),
+                                 stringsAsFactors = use_factors))
 
     values <- dataset$value
     if (is.list(values)) {
@@ -88,16 +85,14 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
     }
     assert_that(are_equal(length(values), n_rows))
 
-    dataframe <- c(dimension_table, list(value = values))
-    class(dataframe) <- "data.frame"
-    attr(dataframe, "row.names") <- .set_row_names(length(dataframe[[1]]))
+    dataframe$value <- values
 
     attr(dataframe, "source") <- dataset$source
     attr(dataframe, "updated") <- dataset$updated
     dataframe
 }
 
-.parse_dimension <- function(dimension, naming, use_factors) {
+.parse_dimension <- function(dimension, naming) {
     index <- dimension$category$index
     labels <- dimension$category$label
     if (is.null(index)) {
@@ -125,9 +120,6 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
         }
     }
     assert_that(!is.null(categories))
-    if (use_factors) {
-        categories <- factor(categories, levels = categories)
-    }
     categories
 }
 
