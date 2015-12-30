@@ -53,10 +53,16 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
 }
 
 .parse_dataset <- function(dataset, naming, use_factors) {
-    sizes <- as.integer(dataset$dimension$size)
+    sizes <- as.integer(dataset$size)
+    if (length(sizes) < 1) {
+        sizes <- as.integer(dataset$dimension$size)
+    }
     n_rows <- prod(sizes)
 
-    dimension_ids <- dataset$dimension$id
+    dimension_ids <- dataset$id
+    if (is.null(dimension_ids)) {
+        dimension_ids <- dataset$dimension$id
+    }
     assert_that(!is.null(dimension_ids))
     assert_that(!any(duplicated(dimension_ids)))
     dimensions <- dataset$dimension[dimension_ids]
