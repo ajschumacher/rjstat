@@ -18,3 +18,4 @@ Imports:
 Suggests:
     testthat (>= 0.8),
     reshape (>= 0.7)
+RoxygenNote: 5.0.1
