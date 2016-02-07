@@ -1,13 +1,13 @@
 context("Output")
 
 test_that("single-dimension input gives correct output", {
-    txt <- "{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\"]}},\"id\":[\"V1\"],\"size\":[1]},\"value\":[1]}}"
+    txt <- "{\"dataset\":{\"version\":\"2.0\",\"id\":[\"V1\"],\"size\":[1],\"value\":[1],\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\"]}}}}}"
     expect_identical(toJSONstat(data.frame(V1 = "a", value = 1)),
                      structure(txt, class = "json"))
 })
 
 test_that("sparse cubes give correct output", {
-    txt <- "{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\",\"b\"]}},\"V2\":{\"category\":{\"index\":[\"A\",\"B\"]}},\"id\":[\"V1\",\"V2\"],\"size\":[2,2]},\"value\":{\"0\":1,\"3\":2}}}"
+    txt <- "{\"dataset\":{\"version\":\"2.0\",\"id\":[\"V1\",\"V2\"],\"size\":[2,2],\"value\":{\"0\":1,\"3\":2},\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\",\"b\"]}},\"V2\":{\"category\":{\"index\":[\"A\",\"B\"]}}}}}"
     expect_identical(toJSONstat(data.frame(V1 = c("a", "b"), V2 = c("A", "B"),
                                            value = 1:2)),
                      structure(txt, class = "json"))
@@ -16,7 +16,7 @@ test_that("sparse cubes give correct output", {
                                            V2 = c("A", "B", "A", "B"),
                                            value = c(1, NA, NA, 2),
                                            stringsAsFactors = FALSE)))
-    txt2 <- "{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\",\"b\"]}},\"V2\":{\"category\":{\"index\":[\"A\",\"B\"]}},\"id\":[\"V1\",\"V2\"],\"size\":[2,2]},\"value\":{\"0\":true,\"3\":false}}}"
+    txt2 <- "{\"dataset\":{\"version\":\"2.0\",\"id\":[\"V1\",\"V2\"],\"size\":[2,2],\"value\":{\"0\":true,\"3\":false},\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\",\"b\"]}},\"V2\":{\"category\":{\"index\":[\"A\",\"B\"]}}}}}"
     expect_identical(toJSONstat(data.frame(V1 = c("a", "b"), V2 = c("A", "B"),
                                            value = c(TRUE, FALSE))),
                      structure(txt2, class = "json"))

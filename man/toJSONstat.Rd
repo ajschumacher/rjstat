@@ -17,9 +17,7 @@ toJSONstat(x, value = "value", ...)
 This function takes a data frame or list of data frames and returns
 a string representation in JSON-stat format. The input data frame(s)
 must be in maximally long tidy format: with only one \code{value}
-column and all other columns representing dimensions. The reserved
-words \code{id}, \code{size} and \code{role} are not allowed
-column names.
+column and all other columns representing dimensions.
 }
 \examples{
 library(reshape)

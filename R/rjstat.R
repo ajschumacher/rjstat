@@ -141,9 +141,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
 #' This function takes a data frame or list of data frames and returns
 #' a string representation in JSON-stat format. The input data frame(s)
 #' must be in maximally long tidy format: with only one \code{value}
-#' column and all other columns representing dimensions. The reserved
-#' words \code{id}, \code{size} and \code{role} are not allowed
-#' column names.
+#' column and all other columns representing dimensions.
 #'
 #' @param x a data frame or list of data frames
 #' @param value name of value column
@@ -195,10 +193,6 @@ toJSONstat <- function(x, value = "value", ...) {
     if (is.null(dataset[[value]])) {
         stop("\"", value, "\" is not a column in dataset", call. = FALSE)
     }
-    if (any(names(dataset) %in% c("id", "size", "role"))) {
-        stop("\"id\", \"size\" and \"role\" are not allowed column names",
-             call. = FALSE)
-    }
     if (any(duplicated(names(dataset)))) {
         stop("duplicated column names", call. = FALSE)
     }
@@ -220,10 +214,6 @@ toJSONstat <- function(x, value = "value", ...) {
     categories <- lapply(dimensions, function(dimension) {
         list(category = list(index = levels(dimension)))
     })
-
-    dimension_list <- c(categories,
-                        list(id = dimension_ids,
-                             size = dimension_sizes))
 
     dim_factors <- c(rev(cumprod(rev(dimension_sizes)))[-1], 1)
 
@@ -247,8 +237,11 @@ toJSONstat <- function(x, value = "value", ...) {
         names(values) <- sort_index - 1
     }
 
-    datalist <- list(dimension = dimension_list,
-                     value = values)
+    datalist <- list(version = unbox("2.0"),
+                     id = dimension_ids,
+                     size = dimension_sizes,
+                     value = values,
+                     dimension = categories)
 
     if (!is.null(attr(dataset, "source"))) {
         datalist$source <- unbox(paste(attr(dataset, "source"),

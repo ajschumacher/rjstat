@@ -18,12 +18,6 @@ test_that("wrong input fails", {
     expect_error(toJSONstat(data.frame(value = 1, V1 = NA)), "missing values")
     expect_error(toJSONstat(fromJSONstat(txt), "a"),
                  "is not a column in dataset")
-    expect_error(toJSONstat(data.frame(value = 1, id = 1)),
-                 "not allowed column names")
-    expect_error(toJSONstat(data.frame(value = 1, size = 1)),
-                 "not allowed column names")
-    expect_error(toJSONstat(data.frame(value = 1, role = 1)),
-                 "not allowed column names")
     expect_error(toJSONstat(data.frame(value = 1, value = 1,
                                        check.names = FALSE)),
                  "duplicated column names")
