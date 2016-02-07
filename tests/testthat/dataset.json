@@ -1,16 +1,17 @@
 {
+  "version": "2.0",
   "class": "dataset",
   "label": "A dataset",
   "value": [
     1
   ],
+  "id": [
+    "testdimension"
+  ],
+  "size": [
+    1
+  ],
   "dimension": {
-    "id": [
-      "testdimension"
-    ],
-    "size": [
-      1
-    ],
     "testdimension": {
       "label": "A dimension",
       "category": {
