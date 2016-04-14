@@ -1,16 +1,26 @@
 context("Attributes")
 
-dataset <- readLines("bundle.json")
-
 test_that("attributes are correct", {
-    expect_equal(attr(fromJSONstat(dataset)[[1]], "source"),
-                 "Random data")
-    expect_equal(attr(fromJSONstat(dataset)[[1]], "updated"),
-                 "2014-09-29")
-    expect_match(toJSONstat(fromJSONstat(dataset)),
-                 "\"source\":\"Random data\"")
-    expect_match(toJSONstat(fromJSONstat(dataset)),
-                 "\"updated\":\"2014-09-29\"")
-    expect_null(attr(fromJSONstat(dataset)[[2]], "source"))
-    expect_null(attr(fromJSONstat(dataset)[[2]], "updated"))
+    fromJSONstat("bundle.json") %>%
+        getElement(1) %>%
+        attr("source") %>%
+        expect_equal("Random data")
+    fromJSONstat("bundle.json") %>%
+        getElement(1) %>%
+        attr("updated") %>%
+        expect_equal("2014-09-29")
+    fromJSONstat("bundle.json") %>%
+        toJSONstat() %>%
+        expect_match("\"source\":\"Random data\"")
+    fromJSONstat("bundle.json") %>%
+        toJSONstat() %>%
+        expect_match("\"updated\":\"2014-09-29\"")
+    fromJSONstat("bundle.json") %>%
+        getElement(2) %>%
+        attr("source") %>%
+        expect_null()
+    fromJSONstat("bundle.json") %>%
+        getElement(2) %>%
+        attr("updated") %>%
+        expect_null()
 })

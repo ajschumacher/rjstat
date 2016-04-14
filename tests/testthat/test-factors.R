@@ -1,79 +1,83 @@
 context("Factors")
 
-dataset <- readLines("bundle.json")
-
 test_that("factors are factors", {
-    expect_is(fromJSONstat(dataset, naming = "label",
-                           use_factors = TRUE)[[1]][[1]],
-              "factor")
-    expect_is(fromJSONstat(dataset, naming = "id",
-                           use_factors = TRUE)[[1]][[1]],
-              "factor")
+    fromJSONstat("bundle.json", naming = "label", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(1) %>%
+        expect_s3_class("factor")
+    fromJSONstat("bundle.json", naming = "id", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(1) %>%
+        expect_s3_class("factor")
 
-    expect_is(fromJSONstat(dataset, naming = "label",
-                           use_factors = TRUE)[[1]][[2]],
-              "factor")
-    expect_is(fromJSONstat(dataset, naming = "id",
-                           use_factors = TRUE)[[1]][[2]],
-              "factor")
+    fromJSONstat("bundle.json", naming = "label", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(2) %>%
+        expect_s3_class("factor")
+    fromJSONstat("bundle.json", naming = "id", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(2) %>%
+        expect_s3_class("factor")
 
-    expect_is(fromJSONstat(dataset, naming = "label",
-                           use_factors = TRUE)[[1]][[3]],
-              "factor")
-    expect_is(fromJSONstat(dataset, naming = "id",
-                           use_factors = TRUE)[[1]][[3]],
-              "factor")
+    fromJSONstat("bundle.json", naming = "label", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(3) %>%
+        expect_s3_class("factor")
+    fromJSONstat("bundle.json", naming = "id", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(3) %>%
+        expect_s3_class("factor")
 })
 
 test_that("factor levels are correct", {
-    expect_equal(nlevels(fromJSONstat(dataset, naming = "label",
-                                      use_factors = TRUE)[[1]][[1]]),
-                 2)
-    expect_equal(levels(fromJSONstat(dataset, naming = "label",
-                                     use_factors = TRUE)[[1]][[1]]),
-                 c("Category 11", "Category 12"))
-    expect_equal(nlevels(fromJSONstat(dataset, naming = "id",
-                                      use_factors = TRUE)[[1]][[1]]),
-                 2)
-    expect_equal(levels(fromJSONstat(dataset, naming = "id",
-                                     use_factors = TRUE)[[1]][[1]]),
-                 c("testcategory11", "testcategory12"))
+    fromJSONstat("bundle.json", naming = "label", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(1) %>%
+        levels() %>%
+        expect_equal(c("Category 11", "Category 12"))
+    fromJSONstat("bundle.json", naming = "id", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(1) %>%
+        levels() %>%
+        expect_equal(c("testcategory11", "testcategory12"))
 
-    expect_equal(nlevels(fromJSONstat(dataset, naming = "label",
-                                      use_factors = TRUE)[[1]][[2]]),
-                 2)
-    expect_equal(levels(fromJSONstat(dataset, naming = "label",
-                                     use_factors = TRUE)[[1]][[2]]),
-                 c("Category 21", "Category 22"))
-    expect_equal(nlevels(fromJSONstat(dataset, naming = "id",
-                                      use_factors = TRUE)[[1]][[2]]),
-                 2)
-    expect_equal(levels(fromJSONstat(dataset, naming = "id",
-                                     use_factors = TRUE)[[1]][[2]]),
-                 c("testcategory21", "testcategory22"))
+    fromJSONstat("bundle.json", naming = "label", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(2) %>%
+        levels() %>%
+        expect_equal(c("Category 21", "Category 22"))
+    fromJSONstat("bundle.json", naming = "id", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(2) %>%
+        levels() %>%
+        expect_equal(c("testcategory21", "testcategory22"))
 
-    expect_equal(nlevels(fromJSONstat(dataset, naming = "label",
-                                      use_factors = TRUE)[[1]][[3]]),
-                 1)
-    expect_equal(levels(fromJSONstat(dataset, naming = "label",
-                                     use_factors = TRUE)[[1]][[3]]),
-                 "Category 3")
-    expect_equal(nlevels(fromJSONstat(dataset, naming = "id",
-                                      use_factors = TRUE)[[1]][[3]]),
-                 1)
-    expect_equal(levels(fromJSONstat(dataset, naming = "id",
-                                     use_factors = TRUE)[[1]][[3]]),
-                 "testcategory3")
+    fromJSONstat("bundle.json", naming = "label", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(3) %>%
+        levels() %>%
+        expect_equal("Category 3")
+    fromJSONstat("bundle.json", naming = "id", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(3) %>%
+        levels() %>%
+        expect_equal("testcategory3")
 })
 
 test_that("factor integer codes are correct", {
-    expect_equivalent(unclass(fromJSONstat(dataset,
-                                           use_factors = TRUE)[[1]][[1]]),
-                      c(1, 1, 2, 2))
-    expect_equivalent(unclass(fromJSONstat(dataset,
-                                           use_factors = TRUE)[[1]][[2]]),
-                      c(1, 2, 1, 2))
-    expect_equivalent(unclass(fromJSONstat(dataset,
-                                           use_factors = TRUE)[[1]][[3]]),
-                      c(1, 1, 1, 1))
+    fromJSONstat("bundle.json", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(1) %>%
+        unclass() %>%
+        expect_equivalent(c(1, 1, 2, 2))
+    fromJSONstat("bundle.json", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(2) %>%
+        unclass() %>%
+        expect_equivalent(c(1, 2, 1, 2))
+    fromJSONstat("bundle.json", use_factors = TRUE) %>%
+        getElement(1) %>%
+        getElement(3) %>%
+        unclass() %>%
+        expect_equivalent(c(1, 1, 1, 1))
 })

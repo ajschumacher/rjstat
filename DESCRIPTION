@@ -16,6 +16,6 @@ Imports:
     jsonlite (>= 0.9.8),
     assertthat
 Suggests:
-    testthat (>= 0.8),
+    testthat (>= 1.0.0),
     reshape (>= 0.7)
 RoxygenNote: 5.0.1
