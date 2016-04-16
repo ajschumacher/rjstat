@@ -69,9 +69,8 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
 
     dimension_categories <- lapply(dimensions, .parse_dimension, naming)
 
-    assert_that(are_equal(sizes,
-                          vapply(dimension_categories, length, 0,
-                                 USE.NAMES = FALSE)))
+    s <- vapply(dimension_categories, length, integer(1), USE.NAMES = FALSE)
+    assert_that(identical(sizes, s))
 
     if (identical(naming, "label")) {
         names(dimension_categories) <- .get_labels(dimensions)
