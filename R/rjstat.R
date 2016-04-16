@@ -203,8 +203,7 @@ toJSONstat <- function(x, value = "value", ...) {
         stop("columns can't be of type \"raw\"", call. = FALSE)
     }
 
-    i <- which(names(dataset) == value)
-    dimensions <- dataset[-i]
+    dimensions <- dataset[names(dataset) != value]
     assert_that(noNA(dimensions))
     j <- !vapply(dimensions, is.factor, logical(1))
     dimensions[j] <- lapply(dimensions[j], factor)
