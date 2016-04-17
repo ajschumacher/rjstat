@@ -2,5 +2,11 @@ context("Classes")
 
 test_that("dataset responses work", {
     fromJSONstat("dataset.json") %>%
-        expect_named("A dataset")
+        expect_type("list") %>%
+        expect_named("A dataset") %>%
+        getElement(1) %>%
+        expect_s3_class("data.frame") %>%
+        expect_named(c("A dimension", "value")) %>%
+        getElement("value") %>%
+        expect_equal(1)
 })
