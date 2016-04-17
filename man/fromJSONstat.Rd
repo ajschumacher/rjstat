@@ -14,6 +14,11 @@ fromJSONstat(x, naming = "label", use_factors = FALSE)
 \item{use_factors}{whether dimension categories should be factors or
 character objects}
 }
+\value{
+For responses with class \code{dataset} or \code{bundle}: A list of
+  one or more data frames. For responses with class \code{collection}: A list
+  of one list of one or more lists or data frames.
+}
 \description{
 This function takes characters of a JSON-stat format response (or path
 or URL to such a response) and returns a list of data frames with

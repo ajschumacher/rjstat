@@ -21,6 +21,10 @@ NULL
 #' @param use_factors whether dimension categories should be factors or
 #'   character objects
 #'
+#' @return For responses with class \code{dataset} or \code{bundle}: A list of
+#'   one or more data frames. For responses with class \code{collection}: A list
+#'   of one list of one or more lists or data frames.
+#'
 #' @export
 #' @examples
 #' \dontrun{
