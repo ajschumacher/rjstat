@@ -37,12 +37,58 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
     assert_that(is.flag(use_factors))
     assert_that(noNA(use_factors))
 
-    x <- fromJSON(x)
+    x <- fromJSON(x, simplifyDataFrame = FALSE)
 
+    parse_list(x, naming, use_factors)
+}
+
+parse_list <- function(x, naming, use_factors) {
     if (identical(x$class, "dataset")) {
-        x <- list(dataset = x)
+        parse_dataset(x, naming, use_factors)
+    } else if (identical(x$class, "dimension")) {
+        parse_dimension(x, naming, use_factors)
+    } else if (identical(x$class, "collection")) {
+        parse_collection(x, naming, use_factors)
+    } else {
+        parse_bundle(x, naming, use_factors)
+    }
+}
+
+parse_dataset <- function(x, naming, use_factors) {
+    dataset <- .parse_dataset(x, naming, use_factors)
+    dataset <- list(dataset = dataset)
+
+    if (identical(naming, "label")) {
+        label <- getElement(x, "label")
+        if (!is.null(label)) {
+            names(dataset) <- label
+        }
     }
 
+    dataset
+}
+
+parse_dimension <- function(x, naming, use_factors) {
+    stop("dimension responses not implemented", call. = FALSE)
+}
+
+parse_collection <- function(x, naming, use_factors) {
+    coll <- lapply(x$link$item, parse_list, naming, use_factors)
+    coll <- unlist(coll, recursive = FALSE)
+    names(coll) <- make.unique(names(coll))
+    coll <- list(collection = coll)
+
+    if (identical(naming, "label")) {
+        label <- getElement(x, "label")
+        if (!is.null(label)) {
+            names(coll) <- label
+        }
+    }
+
+    coll
+}
+
+parse_bundle <- function(x, naming, use_factors) {
     datasets <- lapply(x, .parse_dataset, naming, use_factors)
 
     if (identical(naming, "label")) {
