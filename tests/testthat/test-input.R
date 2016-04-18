@@ -1,7 +1,7 @@
 context("Input")
 
 non_unique <- data.frame(V1 = c("a", "a"), V2 = c("b", "b"), value = 1:2)
-txt <- "{\"dataset\":{\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\"]}},\"id\":[\"V1\"],\"size\":[1]},\"value\":[1]}}"
+txt <- "{\"version\":\"2.0\",\"class\":\"dataset\",\"id\":[\"V1\"],\"size\":[1],\"value\":[1],\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\"]}}}}"
 
 test_that("wrong input fails", {
     expect_error(fromJSONstat(txt, 1), "is not a string")

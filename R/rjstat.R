@@ -190,28 +190,23 @@ toJSONstat <- function(x, value = "value", ...) {
         value <- "value"
     }
 
-    if (is.data.frame(x)) {
-        x <- list(dataset = x)
-    }
-
     assert_that(length(x) > 0)
 
-    datasets <- lapply(x, .unravel_dataset, value)
-
-    default_names <- paste0("dataset", seq_along(datasets))
-    default_names[1] <- "dataset"
-
-    if (is.null(names(datasets))) {
-        names(datasets) <- default_names
-    } else {
-        i <- which(names(datasets) == "")
-        names(datasets)[i] <- default_names[i]
-        j <- which(duplicated(names(datasets)))
-        names(datasets)[j] <- paste0(names(datasets)[j], " (",
-                                     default_names[j], ")")
-    }
+    datasets <- c(list(version = unbox("2.0")),
+                  unravel(x, value))
 
     toJSON(datasets, na = "null", ...)
+}
+
+unravel <- function(x, value) {
+    if (is.data.frame(x)) {
+        .unravel_dataset(x, value)
+    } else if (is.list(x)) {
+        list(class = unbox("collection"),
+             link = list(item = unname(lapply(x, unravel, value))))
+    } else {
+        stop("list element is not a data frame", call. = FALSE)
+    }
 }
 
 .unravel_dataset <- function(dataset, value) {
@@ -264,7 +259,7 @@ toJSONstat <- function(x, value = "value", ...) {
         names(values) <- sort_index - 1
     }
 
-    datalist <- list(version = unbox("2.0"),
+    datalist <- list(class = unbox("dataset"),
                      id = dimension_ids,
                      size = dimension_sizes,
                      value = values,

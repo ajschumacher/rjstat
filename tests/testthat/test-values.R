@@ -12,7 +12,6 @@ test_that("values are correct", {
     data.frame(V1 = rev(letters), value = 1:26) %>%
         toJSONstat() %>%
         fromJSONstat() %>%
-        getElement(1) %>%
         getElement("value") %>%
         expect_equal(26:1)
 })
