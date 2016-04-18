@@ -15,9 +15,10 @@ fromJSONstat(x, naming = "label", use_factors = FALSE)
 character objects}
 }
 \value{
-For responses with class \code{dataset} or \code{bundle}: A list of
-  one or more data frames. For responses with class \code{collection}: A list
-  of one list of one or more lists or data frames.
+For responses with class \code{dataset}: A data frame. For responses
+  with class \code{collection}: An unnamed list of one or more lists or data
+  frames. For responses with class \code{bundle}: A named list of one or more
+  data frames.
 }
 \description{
 This function takes characters of a JSON-stat format response (or path

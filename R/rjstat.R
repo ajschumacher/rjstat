@@ -21,9 +21,10 @@ NULL
 #' @param use_factors whether dimension categories should be factors or
 #'   character objects
 #'
-#' @return For responses with class \code{dataset} or \code{bundle}: A list of
-#'   one or more data frames. For responses with class \code{collection}: A list
-#'   of one list of one or more lists or data frames.
+#' @return For responses with class \code{dataset}: A data frame. For responses
+#'   with class \code{collection}: An unnamed list of one or more lists or data
+#'   frames. For responses with class \code{bundle}: A named list of one or more
+#'   data frames.
 #'
 #' @export
 #' @examples
@@ -59,17 +60,7 @@ parse_list <- function(x, naming, use_factors) {
 }
 
 parse_dataset <- function(x, naming, use_factors) {
-    dataset <- .parse_dataset(x, naming, use_factors)
-    dataset <- list(dataset = dataset)
-
-    if (identical(naming, "label")) {
-        label <- getElement(x, "label")
-        if (!is.null(label)) {
-            names(dataset) <- label
-        }
-    }
-
-    dataset
+    .parse_dataset(x, naming, use_factors)
 }
 
 parse_dimension <- function(x, naming, use_factors) {
@@ -77,19 +68,7 @@ parse_dimension <- function(x, naming, use_factors) {
 }
 
 parse_collection <- function(x, naming, use_factors) {
-    coll <- lapply(x$link$item, parse_list, naming, use_factors)
-    coll <- unlist(coll, recursive = FALSE)
-    names(coll) <- make.unique(names(coll))
-    coll <- list(collection = coll)
-
-    if (identical(naming, "label")) {
-        label <- getElement(x, "label")
-        if (!is.null(label)) {
-            names(coll) <- label
-        }
-    }
-
-    coll
+    lapply(x$link$item, parse_list, naming, use_factors)
 }
 
 parse_bundle <- function(x, naming, use_factors) {
