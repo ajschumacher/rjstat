@@ -86,6 +86,7 @@ parse_bundle <- function(x, naming, use_factors) {
     if (length(sizes) < 1) {
         sizes <- as.integer(dataset$dimension$size)
     }
+    assert_that(length(sizes) > 0)
     n_rows <- prod(sizes)
 
     dimension_ids <- dataset$id
