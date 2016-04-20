@@ -122,8 +122,6 @@ parse_bundle <- function(x, naming, use_factors) {
 
     dataframe$value <- values
 
-    attr(dataframe, "source") <- dataset$source
-    attr(dataframe, "updated") <- dataset$updated
     dataframe
 }
 
@@ -265,15 +263,6 @@ unravel <- function(x, value) {
                      size = dimension_sizes,
                      value = values,
                      dimension = categories)
-
-    if (!is.null(attr(dataset, "source"))) {
-        datalist$source <- unbox(paste(attr(dataset, "source"),
-                                       collapse = " "))
-    }
-    if (!is.null(attr(dataset, "updated"))) {
-        datalist$updated <- unbox(paste(attr(dataset, "updated"),
-                                        collapse = " "))
-    }
 
     datalist
 }
