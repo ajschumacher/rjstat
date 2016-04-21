@@ -60,15 +60,29 @@ parse_list <- function(x, naming, use_factors) {
 }
 
 parse_dataset <- function(x, naming, use_factors) {
-    .parse_dataset(x, naming, use_factors)
+    if (is.null(x$value)) {
+        warning("no values in dataset, returning unparsed list",
+                call. = FALSE)
+        x
+    } else {
+        .parse_dataset(x, naming, use_factors)
+    }
 }
 
 parse_dimension <- function(x, naming, use_factors) {
-    stop("dimension responses not implemented", call. = FALSE)
+    warning("dimension responses not implemented, returning unparsed list",
+            call. = FALSE)
+    x
 }
 
 parse_collection <- function(x, naming, use_factors) {
-    lapply(x$link$item, parse_list, naming, use_factors)
+    if (is.null(x$link$item)) {
+        warning("no link items in collection, returning unparsed list",
+                call. = FALSE)
+        x
+    } else {
+        lapply(x$link$item, parse_list, naming, use_factors)
+    }
 }
 
 parse_bundle <- function(x, naming, use_factors) {
