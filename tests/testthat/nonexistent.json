@@ -1,0 +1,24 @@
+{
+  "version": "2.0",
+  "class": "collection",
+  "label": "A collection of nonexistent items",
+  "link": {
+    "item": [
+      {
+        "class": "dataset",
+        "label": "A nonexistent dataset",
+        "href": "http://example.org/dataset.json"
+      },
+      {
+        "class": "dimension",
+        "label": "A nonexistent dimension",
+        "href": "http://example.org/dimension.json"
+      },
+      {
+        "class": "collection",
+        "label": "A nonexistent collection",
+        "href": "http://example.org/collection.json"
+      }
+    ]
+  }
+}

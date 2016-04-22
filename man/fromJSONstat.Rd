@@ -4,7 +4,7 @@
 \alias{fromJSONstat}
 \title{Convert JSON-stat format to data frame(s)}
 \usage{
-fromJSONstat(x, naming = "label", use_factors = FALSE)
+fromJSONstat(x, naming = "label", use_factors = FALSE, silent = FALSE)
 }
 \arguments{
 \item{x}{the JSON-stat format in characters (or path or URL)}
@@ -13,6 +13,8 @@ fromJSONstat(x, naming = "label", use_factors = FALSE)
 
 \item{use_factors}{whether dimension categories should be factors or
 character objects}
+
+\item{silent}{suppress warnings}
 }
 \value{
 For responses with class \code{dataset}: A data frame. For responses

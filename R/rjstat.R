@@ -20,6 +20,7 @@ NULL
 #' @param naming whether to use (longer) \code{label}s or (shorter) \code{id}s
 #' @param use_factors whether dimension categories should be factors or
 #'   character objects
+#' @param silent suppress warnings
 #'
 #' @return For responses with class \code{dataset}: A data frame. For responses
 #'   with class \code{collection}: An unnamed list of one or more lists or data
@@ -33,7 +34,8 @@ NULL
 #' results <- fromJSONstat(oecd.canada.url)
 #' names(results)
 #' }
-fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
+fromJSONstat <- function(x, naming = "label", use_factors = FALSE,
+                         silent = FALSE) {
     assert_that(is.string(naming))
     if (!naming %in% c("label", "id")) {
         stop('naming must be "label" or "id"', call. = FALSE)
@@ -42,46 +44,50 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE) {
     assert_that(is.flag(use_factors))
     assert_that(noNA(use_factors))
 
+    assert_that(is.flag(silent))
+    assert_that(noNA(silent))
+
     x <- fromJSON(x, simplifyDataFrame = FALSE)
 
-    parse_list(x, naming, use_factors)
+    parse_list(x, naming, use_factors, silent)
 }
 
-parse_list <- function(x, naming, use_factors) {
+parse_list <- function(x, naming, use_factors, silent) {
     if (identical(x$class, "dataset")) {
-        parse_dataset(x, naming, use_factors)
+        parse_dataset(x, naming, use_factors, silent)
     } else if (identical(x$class, "dimension")) {
-        parse_dimension(x, naming, use_factors)
+        parse_dimension(x, naming, use_factors, silent)
     } else if (identical(x$class, "collection")) {
-        parse_collection(x, naming, use_factors)
+        parse_collection(x, naming, use_factors, silent)
     } else {
         parse_bundle(x, naming, use_factors)
     }
 }
 
-parse_dataset <- function(x, naming, use_factors) {
+sw <- function(msg, silent) {
+    if (!silent) warning(msg, call. = FALSE)
+}
+
+parse_dataset <- function(x, naming, use_factors, silent) {
     if (is.null(x$value)) {
-        warning("no values in dataset, returning unparsed list",
-                call. = FALSE)
+        sw("no values in dataset, returning unparsed list", silent)
         x
     } else {
         .parse_dataset(x, naming, use_factors)
     }
 }
 
-parse_dimension <- function(x, naming, use_factors) {
-    warning("dimension responses not implemented, returning unparsed list",
-            call. = FALSE)
+parse_dimension <- function(x, naming, use_factors, silent) {
+    sw("dimension responses not implemented, returning unparsed list", silent)
     x
 }
 
-parse_collection <- function(x, naming, use_factors) {
+parse_collection <- function(x, naming, use_factors, silent) {
     if (is.null(x$link$item)) {
-        warning("no link items in collection, returning unparsed list",
-                call. = FALSE)
+        sw("no link items in collection, returning unparsed list", silent)
         x
     } else {
-        lapply(x$link$item, parse_list, naming, use_factors)
+        lapply(x$link$item, parse_list, naming, use_factors, silent)
     }
 }
 
