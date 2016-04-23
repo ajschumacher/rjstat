@@ -209,8 +209,6 @@ toJSONstat <- function(x, value = "value", ...) {
         value <- "value"
     }
 
-    assert_that(length(x) > 0)
-
     datasets <- c(list(version = unbox("2.0")),
                   unravel(x, value))
 
@@ -221,6 +219,7 @@ unravel <- function(x, value) {
     if (is.data.frame(x)) {
         .unravel_dataset(x, value)
     } else if (is.list(x)) {
+        assert_that(length(x) > 0)
         list(class = unbox("collection"),
              link = list(item = unname(lapply(x, unravel, value))))
     } else {
