@@ -134,7 +134,7 @@ parse_bundle <- function(x, naming, use_factors) {
         values <- unlist(values)
         v <- rep(NA, n_rows)
         i <- as.integer(names(values)) + 1
-        assert_that(max(i) <= n_rows, min(i) > 0)
+        suppressWarnings(assert_that(max(i) <= n_rows, min(i) > 0))
         v[i] <- values
         values <- v
     }
