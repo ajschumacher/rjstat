@@ -110,7 +110,7 @@ parse_bundle <- function(x, naming, use_factors) {
     if (is.null(dimension_ids)) {
         dimension_ids <- dataset$dimension$id
     }
-    assert_that(!is.null(dimension_ids))
+    assert_that(length(dimension_ids) > 0)
     assert_that(!any(duplicated(dimension_ids)))
     dimensions <- dataset$dimension[dimension_ids]
 
@@ -169,7 +169,7 @@ parse_bundle <- function(x, naming, use_factors) {
             categories <- unname(unlist(labels)[categories])
         }
     }
-    assert_that(!is.null(categories))
+    assert_that(length(categories) > 0)
     categories
 }
 
