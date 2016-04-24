@@ -41,11 +41,8 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE,
         stop('naming must be "label" or "id"', call. = FALSE)
     }
 
-    assert_that(is.flag(use_factors))
-    assert_that(noNA(use_factors))
-
-    assert_that(is.flag(silent))
-    assert_that(noNA(silent))
+    assert_that(is.flag(use_factors), noNA(use_factors))
+    assert_that(is.flag(silent), noNA(silent))
 
     x <- fromJSON(x, simplifyDataFrame = FALSE)
 
