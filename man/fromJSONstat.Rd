@@ -7,7 +7,7 @@
 fromJSONstat(x, naming = "label", use_factors = FALSE, silent = FALSE)
 }
 \arguments{
-\item{x}{the JSON-stat format in characters (or path or URL)}
+\item{x}{JSON-stat format response, or path or URL to such a response}
 
 \item{naming}{whether to use (longer) \code{label}s or (shorter) \code{id}s}
 
@@ -23,9 +23,9 @@ For responses with class \code{dataset}: A data frame. For responses
   data frames.
 }
 \description{
-This function takes characters of a JSON-stat format response (or path
-or URL to such a response) and returns a list of data frames with
-columns for each dimension and one \code{value} column.
+This function takes a JSON-stat format response and returns a data frame or a
+list of data frames, with columns for each dimension and one \code{value}
+column.
 }
 \examples{
 \dontrun{

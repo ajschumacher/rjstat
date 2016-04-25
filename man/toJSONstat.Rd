@@ -13,6 +13,11 @@ toJSONstat(x, value = "value", ...)
 
 \item{...}{arguments passed on to \code{\link[jsonlite]{toJSON}}}
 }
+\value{
+For a data frame: A JSON-stat format response with class
+  \code{dataset}. For a list of data frames: A JSON-stat format response with
+  class \code{collection}.
+}
 \description{
 This function takes a data frame or list of data frames and returns
 a string representation in JSON-stat format. The input data frame(s)
