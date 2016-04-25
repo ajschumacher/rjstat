@@ -7,7 +7,7 @@ Read and write data sets in the [JSON-stat](http://json-stat.org/) format.
 
 ### Installation:
 
-[From CRAN](http://cran.r-project.org/package=rjstat) (most people use this):
+[From CRAN](https://cran.r-project.org/package=rjstat) (most people use this):
 
 ```s
 install.packages('rjstat')
@@ -50,7 +50,7 @@ irises <- melt(cbind(iris, Specimen=rep(1:50, 3)),
 irisJSONstat <- toJSONstat(list(iris=irises))
 cat(substr(irisJSONstat, 1, 76))
 
-## {"iris":{"dimension":{"Species":{"category":{"index":["setosa","versicolor",
+## {"version":"2.0","class":"collection","link":{"item":[{"class":"dataset","id
 
 # You can successfully convert back and forth, but only for the features that
 # make sense in both R and JSON-stat.
