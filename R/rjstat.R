@@ -202,6 +202,9 @@ parse_bundle <- function(x, naming, use_factors) {
 #'                id.vars=c("Species", "Specimen"))
 #' irisJSONstat <- toJSONstat(list(iris=irises))
 #' cat(substr(irisJSONstat, 1, 76))
+#'
+#' # Add indentation whitespace
+#' toJSONstat(as.data.frame(Titanic), value = "Freq", pretty = TRUE)
 toJSONstat <- function(x, value = "value", ...) {
     assert_that(is.data.frame(x) || is.list(x))
 
