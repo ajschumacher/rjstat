@@ -10,6 +10,10 @@ test_that("column names are correct", {
         getElement(1) %>%
         expect_named(c("testdimension1", "testdimension2",
                        "testdimension3", "value"))
+    data.frame(V1 = "a", value = 1) %>%
+        toJSONstat(value = "V1") %>%
+        fromJSONstat() %>%
+        expect_named(c("value", "value"))
 })
 
 test_that("columns are correct", {
