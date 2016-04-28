@@ -137,7 +137,7 @@ parse_bundle <- function(x, naming, use_factors) {
     }
     assert_that(are_equal(length(values), n_rows))
 
-    dataframe$value <- values
+    dataframe <- cbind(dataframe, value = values)
 
     dataframe
 }
