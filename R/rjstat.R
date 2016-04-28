@@ -235,7 +235,7 @@ unravel <- function(x, value) {
     assert_that(is.data.frame(dataset))
     assert_that(nrow(dataset) > 0)
     assert_that(ncol(dataset) > 1)
-    if (is.null(dataset[[value]])) {
+    if (all(value != names(dataset))) {
         stop("\"", value, "\" is not a column in dataset", call. = FALSE)
     }
     if (any(duplicated(names(dataset)))) {
