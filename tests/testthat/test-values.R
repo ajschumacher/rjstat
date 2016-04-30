@@ -19,4 +19,9 @@ test_that("values are correct", {
         fromJSONstat() %>%
         getElement("value") %>%
         expect_equal(letters)
+    data.frame(V1 = 0:255, value = as.raw(0:255)) %>%
+        toJSONstat() %>%
+        fromJSONstat() %>%
+        getElement("value") %>%
+        expect_equal(as.character(as.raw(0:255)))
 })

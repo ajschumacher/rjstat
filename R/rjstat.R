@@ -244,9 +244,9 @@ unravel <- function(x, value) {
     if (any(!vapply(dataset, is.atomic, logical(1)))) {
         stop("all columns must be atomic", call. = FALSE)
     }
-    if (any(vapply(dataset, is.raw, logical(1)))) {
-        stop("columns can't be of type \"raw\"", call. = FALSE)
-    }
+
+    i <- vapply(dataset, is.raw, logical(1))
+    dataset[i] <- lapply(dataset[i], as.character)
 
     dimensions <- dataset[names(dataset) != value]
     assert_that(noNA(dimensions))

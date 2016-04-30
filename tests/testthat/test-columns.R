@@ -49,6 +49,12 @@ test_that("columns are correct", {
         getElement(3) %>%
         expect_equal(c("testcategory3", "testcategory3",
                        "testcategory3", "testcategory3"))
+
+    data.frame(V1 = as.raw(0:255), value = 0:255) %>%
+        toJSONstat() %>%
+        fromJSONstat() %>%
+        getElement("V1") %>%
+        expect_equal(as.character(as.raw(0:255)))
 })
 
 test_that("column names are correct for missing labels", {
