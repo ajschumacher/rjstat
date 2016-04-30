@@ -106,9 +106,9 @@ parse_bundle <- function(x, naming, use_factors) {
     assert_that(length(sizes) > 0)
     n_rows <- prod(sizes)
 
-    dimension_ids <- dataset$id
-    if (is.null(dimension_ids)) {
-        dimension_ids <- dataset$dimension$id
+    dimension_ids <- as.character(dataset$id)
+    if (length(dimension_ids) < 1) {
+        dimension_ids <- as.character(dataset$dimension$id)
     }
     assert_that(length(dimension_ids) == length(sizes))
     assert_that(!any(duplicated(dimension_ids)))
