@@ -146,27 +146,25 @@ parse_bundle <- function(x, naming, use_factors) {
     index <- dimension$category$index
     labels <- dimension$category$label
     if (is.null(index)) {
-        categories <- unlist(labels)
         if (identical(naming, "label")) {
-            categories <- unname(categories)
+            categories <- as.character(labels)
         } else {
-            categories <- names(categories)
+            categories <- names(labels)
         }
     } else if (is.list(index)) {
         categories <- sort(unlist(index))
         if (identical(naming, "label") && identical(length(labels),
                                                     length(categories))) {
-            labels <- unlist(labels)
             categories[names(labels)] <- labels
-            categories <- unname(categories)
+            categories <- as.character(categories)
         } else {
             categories <- names(categories)
         }
     } else {
-        categories <- index
+        categories <- as.character(index)
         if (identical(naming, "label") && identical(length(labels),
                                                     length(categories))) {
-            categories <- unname(unlist(labels)[categories])
+            categories <- as.character(labels[categories])
         }
     }
     assert_that(length(categories) > 0)
