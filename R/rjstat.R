@@ -119,12 +119,12 @@ parse_bundle <- function(x, naming, use_factors) {
     s <- vapply(dimension_categories, length, integer(1), USE.NAMES = FALSE)
     assert_that(identical(sizes, s))
 
-    if (identical(naming, "label")) {
-        names(dimension_categories) <- .get_labels(dimensions)
-    }
-
     dataframe <- rev(expand.grid(rev(dimension_categories),
                                  stringsAsFactors = use_factors))
+
+    if (identical(naming, "label")) {
+        names(dataframe) <- .get_labels(dimensions)
+    }
 
     values <- dataset$value
     if (is.list(values)) {

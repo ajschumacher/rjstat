@@ -14,6 +14,11 @@ test_that("column names are correct", {
         toJSONstat(value = "V1") %>%
         fromJSONstat() %>%
         expect_named(c("value", "value"))
+    readLines("bundle.json") %>%
+        gsub(pattern = " with[^\"]*", replacement = "") %>%
+        fromJSONstat() %>%
+        getElement(1) %>%
+        expect_named(c(rep("A dimension", 3), "value"))
 })
 
 test_that("columns are correct", {
