@@ -110,6 +110,7 @@ parse_bundle <- function(x, naming, use_factors) {
     }
     assert_character(dimension_ids, min.chars = 1, any.missing = FALSE,
                      len = length(sizes), unique = TRUE)
+    assert_subset(dimension_ids, names(dataset$dimension))
 
     dimensions <- dataset$dimension[dimension_ids]
 
