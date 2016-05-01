@@ -7,7 +7,7 @@
 #' @docType package
 #' @name rjstat
 #' @import jsonlite
-#' @import assertthat
+#' @import checkmate
 NULL
 
 #' Convert JSON-stat format to data frame(s)
@@ -36,13 +36,9 @@ NULL
 #' }
 fromJSONstat <- function(x, naming = "label", use_factors = FALSE,
                          silent = FALSE) {
-    assert_that(is.string(naming))
-    if (!naming %in% c("label", "id")) {
-        stop('naming must be "label" or "id"', call. = FALSE)
-    }
-
-    assert_that(is.flag(use_factors), noNA(use_factors))
-    assert_that(is.flag(silent), noNA(silent))
+    assert_choice(naming, c("label", "id"))
+    assert_flag(use_factors)
+    assert_flag(silent)
 
     x <- fromJSON(x, simplifyDataFrame = FALSE)
 
@@ -103,41 +99,51 @@ parse_bundle <- function(x, naming, use_factors) {
     if (length(sizes) < 1) {
         sizes <- as.integer(dataset$dimension$size)
     }
-    assert_that(length(sizes) > 0)
+    assert_integer(sizes, lower = 1, any.missing = FALSE, min.len = 1)
+
     n_rows <- prod(sizes)
+    assert_count(n_rows, positive = TRUE)
 
     dimension_ids <- as.character(dataset$id)
     if (length(dimension_ids) < 1) {
         dimension_ids <- as.character(dataset$dimension$id)
     }
-    assert_that(length(dimension_ids) == length(sizes))
-    assert_that(!any(duplicated(dimension_ids)))
+    assert_character(dimension_ids, min.chars = 1, any.missing = FALSE,
+                     len = length(sizes), unique = TRUE)
+
     dimensions <- dataset$dimension[dimension_ids]
 
     dimension_categories <- lapply(dimensions, .parse_dimension, naming)
+    assert_list(dimension_categories, types = "character", len = length(sizes),
+                names = "unique")
 
-    s <- vapply(dimension_categories, length, integer(1), USE.NAMES = FALSE)
-    assert_that(identical(sizes, s))
+    s <- vapply(dimension_categories, length, integer(1))
+    assert_set_equal(sizes, s, ordered = TRUE)
 
     dataframe <- rev(expand.grid(rev(dimension_categories),
                                  stringsAsFactors = use_factors))
-
     if (identical(naming, "label")) {
         names(dataframe) <- .get_labels(dimensions)
     }
+    assert_data_frame(dataframe, types = c("character", "factor"),
+                      any.missing = FALSE, nrows = n_rows,
+                      ncols = length(sizes))
 
     values <- dataset$value
     if (is.list(values)) {
         values <- unlist(values)
         v <- rep(NA, n_rows)
-        i <- as.integer(names(values)) + 1
-        suppressWarnings(assert_that(max(i) <= n_rows, min(i) > 0))
+        i <- as.integer(names(values)) + 1L
+        assert_integer(i, lower = 1, upper = n_rows, any.missing = FALSE,
+                       max.len = n_rows, unique = TRUE)
         v[i] <- values
         values <- v
     }
-    assert_that(are_equal(length(values), n_rows))
+    assert_atomic(values, len = n_rows)
 
     dataframe <- cbind(dataframe, value = values, stringsAsFactors = FALSE)
+    assert_data_frame(dataframe, types = "atomic", nrows = n_rows,
+                      ncols = length(sizes) + 1)
 
     dataframe
 }
@@ -167,7 +173,8 @@ parse_bundle <- function(x, naming, use_factors) {
             categories <- as.character(labels[categories])
         }
     }
-    assert_that(length(categories) > 0)
+    assert_character(categories, min.chars = 1, any.missing = FALSE,
+                     min.len = 1)
     categories
 }
 
@@ -204,13 +211,6 @@ parse_bundle <- function(x, naming, use_factors) {
 #' # Add indentation whitespace
 #' toJSONstat(as.data.frame(Titanic), value = "Freq", pretty = TRUE)
 toJSONstat <- function(x, value = "value", ...) {
-    assert_that(is.data.frame(x) || is.list(x))
-
-    assert_that(is.string(value))
-    if (identical(value, "")) {
-        value <- "value"
-    }
-
     datasets <- c(list(version = unbox("2.0")),
                   unravel(x, value))
 
@@ -218,36 +218,26 @@ toJSONstat <- function(x, value = "value", ...) {
 }
 
 unravel <- function(x, value) {
+    assert(checkDataFrame(x), checkList(x))
     if (is.data.frame(x)) {
         .unravel_dataset(x, value)
-    } else if (is.list(x)) {
-        assert_that(length(x) > 0)
+    } else {
+        assert_list(x, min.len = 1)
         list(class = unbox("collection"),
              link = list(item = unname(lapply(x, unravel, value))))
-    } else {
-        stop("list element is not a data frame", call. = FALSE)
     }
 }
 
 .unravel_dataset <- function(dataset, value) {
-    assert_that(is.data.frame(dataset))
-    assert_that(nrow(dataset) > 0)
-    assert_that(ncol(dataset) > 1)
-    if (all(value != names(dataset))) {
-        stop("\"", value, "\" is not a column in dataset", call. = FALSE)
-    }
-    if (any(duplicated(names(dataset)))) {
-        stop("duplicated column names", call. = FALSE)
-    }
-    if (any(!vapply(dataset, is.atomic, logical(1)))) {
-        stop("all columns must be atomic", call. = FALSE)
-    }
+    assert_data_frame(dataset, types = "atomic", min.rows = 1, min.cols = 2,
+                      col.names = "unique")
+    assert_choice(value, names(dataset))
 
     i <- vapply(dataset, is.raw, logical(1))
     dataset[i] <- lapply(dataset[i], as.character)
 
     dimensions <- dataset[names(dataset) != value]
-    assert_that(noNA(dimensions))
+    assert_data_frame(dimensions, any.missing = FALSE)
     j <- !vapply(dimensions, is.factor, logical(1))
     dimensions[j] <- lapply(dimensions[j], factor)
 

@@ -2,5 +2,5 @@
 
 export(fromJSONstat)
 export(toJSONstat)
-import(assertthat)
+import(checkmate)
 import(jsonlite)

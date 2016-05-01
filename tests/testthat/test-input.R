@@ -4,32 +4,7 @@ non_unique <- data.frame(V1 = c("a", "a"), V2 = c("b", "b"), value = 1:2)
 txt <- "{\"version\":\"2.0\",\"class\":\"dataset\",\"id\":[\"V1\"],\"size\":[1],\"value\":[1],\"dimension\":{\"V1\":{\"category\":{\"index\":[\"a\"]}}}}"
 
 test_that("wrong input fails", {
-    expect_error(fromJSONstat(txt, 1), "is not a string")
-    expect_error(fromJSONstat(txt, letters), "is not a string")
-    expect_error(fromJSONstat(txt, "a"), "naming must be \"label\" or \"id\"")
-    expect_error(fromJSONstat(txt, use_factors = "a"), "is not a flag")
-    expect_error(fromJSONstat(txt, use_factors = NA), "missing values")
-    expect_error(fromJSONstat(txt, silent = "a"), "is not a flag")
-    expect_error(fromJSONstat(txt, silent = NA), "missing values")
-    expect_error(toJSONstat(1), "(?:.*is not a data frame)(?:.* is not a list)")
-    expect_error(toJSONstat(fromJSONstat(txt), letters), "is not a string")
-    expect_error(toJSONstat(list()), "not greater than 0")
-    expect_error(toJSONstat(list(1)), "is not a data frame")
-    expect_error(toJSONstat(data.frame()), "not greater than 0")
-    expect_error(toJSONstat(data.frame(value = 1)), "not greater than 1")
     expect_error(toJSONstat(data.frame(value = 1, V1 = NA)), "missing values")
-    expect_error(toJSONstat(fromJSONstat(txt), "a"),
-                 "is not a column in dataset")
-    expect_error(toJSONstat(data.frame(value = 1, value = 1,
-                                       check.names = FALSE)),
-                 "duplicated column names")
-    expect_error(toJSONstat(data.frame(value = 1, V1 = "a", V1 = "a",
-                                       check.names = FALSE)),
-                 "duplicated column names")
-    expect_error(toJSONstat(data.frame(value = I(list(1:2)), V1 = "a")),
-                 "all columns must be atomic")
-    expect_error(toJSONstat(data.frame(value = 1, V1 = I(list(letters)))),
-                 "all columns must be atomic")
     expect_error(toJSONstat(non_unique),
                  "non-value columns must constitute a unique ID")
 })
@@ -37,7 +12,6 @@ test_that("wrong input fails", {
 test_that("name of value column works", {
     df1 <- data.frame(V1 = "a", value = 1)
     expect_match(toJSONstat(df1), "\"value\":\\[1\\]")
-    expect_match(toJSONstat(df1, value = ""), "\"value\":\\[1\\]")
     df2 <- data.frame(V1 = "a", v = 1)
     expect_match(toJSONstat(df2, value = "v"), "\"value\":\\[1\\]")
 })
