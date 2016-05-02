@@ -57,13 +57,12 @@ parse_list <- function(x, naming, use_factors, silent) {
     }
 }
 
-sw <- function(msg, silent) {
-    if (!silent) warning(msg, call. = FALSE)
-}
-
 parse_dataset <- function(x, naming, use_factors, silent) {
     if (is.null(x$value)) {
-        sw("no values in dataset, returning unparsed list", silent)
+        if (!silent) {
+            warning("no values in dataset, returning unparsed list",
+                    call. = FALSE)
+        }
         x
     } else {
         .parse_dataset(x, naming, use_factors)
@@ -71,13 +70,19 @@ parse_dataset <- function(x, naming, use_factors, silent) {
 }
 
 parse_dimension <- function(x, naming, use_factors, silent) {
-    sw("dimension responses not implemented, returning unparsed list", silent)
+    if (!silent) {
+        warning("dimension responses not implemented, returning unparsed list",
+                call. = FALSE)
+    }
     x
 }
 
 parse_collection <- function(x, naming, use_factors, silent) {
     if (is.null(x$link$item)) {
-        sw("no link items in collection, returning unparsed list", silent)
+        if (!silent) {
+            warning("no link items in collection, returning unparsed list",
+                    call. = FALSE)
+        }
         x
     } else {
         lapply(x$link$item, parse_list, naming, use_factors, silent)
