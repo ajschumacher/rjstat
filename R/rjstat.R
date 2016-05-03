@@ -107,20 +107,20 @@ parse_bundle <- function(x, naming, use_factors) {
     assert_integer(sizes, lower = 1, any.missing = FALSE, min.len = 1)
 
     n_rows <- prod(sizes)
-    assert_count(n_rows, positive = TRUE)
+    n_dims <- length(sizes)
 
     dimension_ids <- as.character(dataset$id)
     if (length(dimension_ids) < 1) {
         dimension_ids <- as.character(dataset$dimension$id)
     }
     assert_character(dimension_ids, min.chars = 1, any.missing = FALSE,
-                     len = length(sizes), unique = TRUE)
+                     len = n_dims, unique = TRUE)
     assert_subset(dimension_ids, names(dataset$dimension))
 
     dimensions <- dataset$dimension[dimension_ids]
 
     dimension_categories <- lapply(dimensions, .parse_dimension, naming)
-    assert_list(dimension_categories, types = "character", len = length(sizes),
+    assert_list(dimension_categories, types = "character", len = n_dims,
                 names = "unique")
 
     s <- vapply(dimension_categories, length, integer(1))
@@ -132,8 +132,7 @@ parse_bundle <- function(x, naming, use_factors) {
         names(dataframe) <- .get_labels(dimensions)
     }
     assert_data_frame(dataframe, types = c("character", "factor"),
-                      any.missing = FALSE, nrows = n_rows,
-                      ncols = length(sizes))
+                      any.missing = FALSE, nrows = n_rows, ncols = n_dims)
 
     values <- dataset$value
     if (is.list(values)) {
@@ -149,7 +148,7 @@ parse_bundle <- function(x, naming, use_factors) {
 
     dataframe <- cbind(dataframe, value = values, stringsAsFactors = FALSE)
     assert_data_frame(dataframe, types = "atomic", nrows = n_rows,
-                      ncols = length(sizes) + 1)
+                      ncols = n_dims + 1)
 
     dataframe
 }
