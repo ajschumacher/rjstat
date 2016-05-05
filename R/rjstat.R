@@ -118,9 +118,11 @@ parse_bundle <- function(x, naming, use_factors) {
     }
     assert_character(dimension_ids, min.chars = 1, any.missing = FALSE,
                      len = n_dims, unique = TRUE)
-    assert_subset(dimension_ids, names(dataset$dimension))
 
-    dimensions <- dataset$dimension[dimension_ids]
+    dimensions <- dataset$dimension
+    assert_list(dimensions, min.len = n_dims)
+    assert_subset(dimension_ids, names(dimensions))
+    dimensions <- dimensions[dimension_ids]
 
     dimension_categories <- lapply(dimensions, .parse_dimension, naming)
     assert_list(dimension_categories, types = "character", len = n_dims,
