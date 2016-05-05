@@ -46,6 +46,7 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE,
 }
 
 parse_list <- function(x, naming, use_factors, silent) {
+    assert_list(x, min.len = 1)
     if (identical(x$class, "dataset")) {
         parse_dataset(x, naming, use_factors, silent)
     } else if (identical(x$class, "dimension")) {
@@ -100,6 +101,8 @@ parse_bundle <- function(x, naming, use_factors) {
 }
 
 .parse_dataset <- function(dataset, naming, use_factors) {
+    assert_list(dataset, min.len = 2)
+
     sizes <- as.integer(dataset$size)
     if (length(sizes) < 1) {
         sizes <- as.integer(dataset$dimension$size)
