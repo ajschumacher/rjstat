@@ -177,6 +177,7 @@ parse_dimension <- function(dimension, naming) {
 }
 
 parse_no_index <- function(labels, naming) {
+    assert_list(labels, len = 1)
     if (identical(naming, "label")) {
         categories <- as.character(unlist(labels))
     } else {
