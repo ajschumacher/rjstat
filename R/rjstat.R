@@ -48,17 +48,17 @@ fromJSONstat <- function(x, naming = "label", use_factors = FALSE,
 parse_list <- function(x, naming, use_factors, silent) {
     assert_list(x, min.len = 1)
     if (identical(x$class, "dataset")) {
-        parse_dataset(x, naming, use_factors, silent)
+        parse_dataset_class(x, naming, use_factors, silent)
     } else if (identical(x$class, "dimension")) {
-        parse_dimension(x, naming, use_factors, silent)
+        parse_dimension_class(x, naming, use_factors, silent)
     } else if (identical(x$class, "collection")) {
-        parse_collection(x, naming, use_factors, silent)
+        parse_collection_class(x, naming, use_factors, silent)
     } else {
-        parse_bundle(x, naming, use_factors)
+        parse_bundle_class(x, naming, use_factors)
     }
 }
 
-parse_dataset <- function(x, naming, use_factors, silent) {
+parse_dataset_class <- function(x, naming, use_factors, silent) {
     if (is.null(x$value)) {
         if (!silent) {
             warning("no values in dataset, returning unparsed list",
@@ -66,11 +66,11 @@ parse_dataset <- function(x, naming, use_factors, silent) {
         }
         x
     } else {
-        .parse_dataset(x, naming, use_factors)
+        parse_dataset(x, naming, use_factors)
     }
 }
 
-parse_dimension <- function(x, naming, use_factors, silent) {
+parse_dimension_class <- function(x, naming, use_factors, silent) {
     if (!silent) {
         warning("dimension responses not implemented, returning unparsed list",
                 call. = FALSE)
@@ -78,7 +78,7 @@ parse_dimension <- function(x, naming, use_factors, silent) {
     x
 }
 
-parse_collection <- function(x, naming, use_factors, silent) {
+parse_collection_class <- function(x, naming, use_factors, silent) {
     if (is.null(x$link$item)) {
         if (!silent) {
             warning("no link items in collection, returning unparsed list",
@@ -90,17 +90,17 @@ parse_collection <- function(x, naming, use_factors, silent) {
     }
 }
 
-parse_bundle <- function(x, naming, use_factors) {
-    datasets <- lapply(x, .parse_dataset, naming, use_factors)
+parse_bundle_class <- function(x, naming, use_factors) {
+    datasets <- lapply(x, parse_dataset, naming, use_factors)
 
     if (identical(naming, "label")) {
-        names(datasets) <- .get_labels(x)
+        names(datasets) <- get_labels(x)
     }
 
     datasets
 }
 
-.parse_dataset <- function(dataset, naming, use_factors) {
+parse_dataset <- function(dataset, naming, use_factors) {
     assert_list(dataset, min.len = 2)
 
     sizes <- as.integer(dataset$size)
@@ -124,7 +124,7 @@ parse_bundle <- function(x, naming, use_factors) {
     assert_subset(dimension_ids, names(dimensions))
     dimensions <- dimensions[dimension_ids]
 
-    dimension_categories <- lapply(dimensions, .parse_dimension, naming)
+    dimension_categories <- lapply(dimensions, parse_dimension, naming)
     assert_list(dimension_categories, types = "character", len = n_dims,
                 names = "unique")
 
@@ -134,7 +134,7 @@ parse_bundle <- function(x, naming, use_factors) {
     dataframe <- rev(expand.grid(rev(dimension_categories),
                                  stringsAsFactors = use_factors))
     if (identical(naming, "label")) {
-        names(dataframe) <- .get_labels(dimensions)
+        names(dataframe) <- get_labels(dimensions)
     }
     assert_data_frame(dataframe, types = c("character", "factor"),
                       any.missing = FALSE, nrows = n_rows, ncols = n_dims)
@@ -158,7 +158,7 @@ parse_bundle <- function(x, naming, use_factors) {
     dataframe
 }
 
-.parse_dimension <- function(dimension, naming) {
+parse_dimension <- function(dimension, naming) {
     index <- dimension$category$index
     labels <- dimension$category$label
     if (is.null(index)) {
@@ -188,7 +188,7 @@ parse_bundle <- function(x, naming, use_factors) {
     categories
 }
 
-.get_labels <- function(x) {
+get_labels <- function(x) {
     labels <- lapply(x, getElement, "label")
     i <- vapply(labels, is.null, logical(1))
     labels[i] <- names(labels)[i]
@@ -230,7 +230,7 @@ toJSONstat <- function(x, value = "value", ...) {
 unravel <- function(x, value) {
     assert(checkDataFrame(x), checkList(x))
     if (is.data.frame(x)) {
-        .unravel_dataset(x, value)
+        unravel_dataset(x, value)
     } else {
         assert_list(x, min.len = 1)
         list(class = unbox("collection"),
@@ -238,7 +238,7 @@ unravel <- function(x, value) {
     }
 }
 
-.unravel_dataset <- function(dataset, value) {
+unravel_dataset <- function(dataset, value) {
     assert_data_frame(dataset, types = "atomic", min.rows = 1, min.cols = 2,
                       col.names = "unique")
     assert_choice(value, names(dataset))
