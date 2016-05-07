@@ -4,7 +4,7 @@ test_that("values are correct", {
     fromJSONstat("bundle.json") %>%
         getElement(1) %>%
         getElement("value") %>%
-        expect_equal(c(1.23456789, 2.3456789, 3.456789, 4.56789))
+        expect_equal(c(1.23456789, 2.3456789, 3.456789, 4.56789, 5.6789, 6.789))
     fromJSONstat("bundle.json") %>%
         getElement(2) %>%
         getElement("value") %>%

@@ -45,12 +45,12 @@ test_that("factor levels are correct", {
         getElement(1) %>%
         getElement(2) %>%
         levels() %>%
-        expect_equal(c("Category 21", "Category 22"))
+        expect_equal(c("Category 21", "Category 22", "Category 23"))
     fromJSONstat("bundle.json", naming = "id", use_factors = TRUE) %>%
         getElement(1) %>%
         getElement(2) %>%
         levels() %>%
-        expect_equal(c("testcategory21", "testcategory22"))
+        expect_equal(c("testcategory21", "testcategory22", "testcategory23"))
 
     fromJSONstat("bundle.json", naming = "label", use_factors = TRUE) %>%
         getElement(1) %>%
@@ -69,15 +69,15 @@ test_that("factor integer codes are correct", {
         getElement(1) %>%
         getElement(1) %>%
         unclass() %>%
-        expect_equivalent(c(1, 1, 2, 2))
+        expect_equivalent(c(1, 1, 1, 2, 2, 2))
     fromJSONstat("bundle.json", use_factors = TRUE) %>%
         getElement(1) %>%
         getElement(2) %>%
         unclass() %>%
-        expect_equivalent(c(1, 2, 1, 2))
+        expect_equivalent(c(1, 2, 3, 1, 2, 3))
     fromJSONstat("bundle.json", use_factors = TRUE) %>%
         getElement(1) %>%
         getElement(3) %>%
         unclass() %>%
-        expect_equivalent(c(1, 1, 1, 1))
+        expect_equivalent(c(1, 1, 1, 1, 1, 1))
 })

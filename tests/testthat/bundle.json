@@ -7,7 +7,9 @@
       1.23456789,
       2.3456789,
       3.456789,
-      4.56789
+      4.56789,
+      5.6789,
+      6.789
     ],
     "dimension": {
       "id": [
@@ -17,7 +19,7 @@
       ],
       "size": [
         2,
-        2,
+        3,
         1
       ],
       "testdimension1": {
@@ -37,11 +39,13 @@
         "label": "A dimension with object index",
         "category": {
           "index": {
-            "testcategory22": 1,
-            "testcategory21": 0
+            "testcategory23": 2,
+            "testcategory21": 0,
+            "testcategory22": 1
           },
           "label": {
             "testcategory22": "Category 22",
+            "testcategory23": "Category 23",
             "testcategory21": "Category 21"
           }
         }
