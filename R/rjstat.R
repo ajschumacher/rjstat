@@ -189,8 +189,8 @@ parse_no_index <- function(labels, naming) {
 
 parse_object_index <- function(index, labels, naming) {
     categories <- sort(unlist(index))
-    if (identical(naming, "label") && identical(length(labels),
-                                                length(categories))) {
+    if (identical(naming, "label") && setequal(names(labels),
+                                               names(categories))) {
         categories[names(labels)] <- labels
         categories <- as.character(unlist(categories))
     } else {
@@ -203,8 +203,7 @@ parse_object_index <- function(index, labels, naming) {
 
 parse_array_index <-  function(index, labels, naming) {
     categories <- as.character(index)
-    if (identical(naming, "label") && identical(length(labels),
-                                                length(categories))) {
+    if (identical(naming, "label") && setequal(names(labels), categories)) {
         categories <- as.character(unlist(labels[categories]))
     }
     assert_character(categories, min.chars = 1, any.missing = FALSE,
