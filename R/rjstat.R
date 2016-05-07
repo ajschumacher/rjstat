@@ -162,26 +162,43 @@ parse_dimension <- function(dimension, naming) {
     index <- dimension$category$index
     labels <- dimension$category$label
     if (is.null(index)) {
-        if (identical(naming, "label")) {
-            categories <- as.character(labels)
-        } else {
-            categories <- names(labels)
-        }
+        parse_no_index(labels, naming)
     } else if (is.list(index)) {
-        categories <- sort(unlist(index))
-        if (identical(naming, "label") && identical(length(labels),
-                                                    length(categories))) {
-            categories[names(labels)] <- labels
-            categories <- as.character(categories)
-        } else {
-            categories <- names(categories)
-        }
+        parse_object_index(index, labels, naming)
     } else {
-        categories <- as.character(index)
-        if (identical(naming, "label") && identical(length(labels),
-                                                    length(categories))) {
-            categories <- as.character(labels[categories])
-        }
+        parse_array_index(index, labels, naming)
+    }
+}
+
+parse_no_index <- function(labels, naming) {
+    if (identical(naming, "label")) {
+        categories <- as.character(unlist(labels))
+    } else {
+        categories <- names(labels)
+    }
+    assert_character(categories, min.chars = 1, any.missing = FALSE, len = 1)
+    categories
+}
+
+parse_object_index <- function(index, labels, naming) {
+    categories <- sort(unlist(index))
+    if (identical(naming, "label") && identical(length(labels),
+                                                length(categories))) {
+        categories[names(labels)] <- labels
+        categories <- as.character(unlist(categories))
+    } else {
+        categories <- names(categories)
+    }
+    assert_character(categories, min.chars = 1, any.missing = FALSE,
+                     min.len = 1)
+    categories
+}
+
+parse_array_index <-  function(index, labels, naming) {
+    categories <- as.character(index)
+    if (identical(naming, "label") && identical(length(labels),
+                                                length(categories))) {
+        categories <- as.character(unlist(labels[categories]))
     }
     assert_character(categories, min.chars = 1, any.missing = FALSE,
                      min.len = 1)
