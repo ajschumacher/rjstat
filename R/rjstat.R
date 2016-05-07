@@ -159,8 +159,14 @@ parse_dataset <- function(dataset, naming, use_factors) {
 }
 
 parse_dimension <- function(dimension, naming) {
-    index <- dimension$category$index
-    labels <- dimension$category$label
+    assert_list(dimension, min.len = 1)
+
+    categories <- dimension$category
+    assert_list(categories, min.len = 1)
+
+    index <- categories$index
+    labels <- categories$label
+
     if (is.null(index)) {
         parse_no_index(labels, naming)
     } else if (is.list(index)) {
