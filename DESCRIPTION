@@ -1,8 +1,6 @@
 Package: rjstat
-Type: Package
 Title: Read and Write 'JSON-stat' Data Sets
-Version: 0.2.1
-Date: 2015-05-25
+Version: 0.3.0
 Author: Aaron Schumacher <ajschumacher@gmail.com>, Håkon Malmedal
 Maintainer: Aaron Schumacher <ajschumacher@gmail.com>
 Description: Read and write the 'JSON-stat' format (http://json-stat.org) to and
