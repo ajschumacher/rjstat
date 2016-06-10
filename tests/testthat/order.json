@@ -1,0 +1,38 @@
+{
+	"version" : "2.0",
+	"class" : "dataset",
+	"href" : "https://json-stat.org/samples/order.json",
+	"label"  : "Demo of value ordering: what does not change, first",
+	"id" : ["A","B","C"],
+	"size" : [3,2,4],
+	"dimension" : {
+		"A" : {
+			"label" : "A: 3-categories dimension",
+			"category" : {
+				"index" : ["1", "2", "3"]
+			}
+		},
+		"B" : {
+			"label" : "B: 2-categories dimension",
+			"category" : {
+				"index" : ["1", "2"]
+			}
+		} ,
+		"C" : {
+			"label" : "C: 4-categories dimension",
+			"category" : {
+				"index" : ["1", "2", "3", "4"]
+			}
+		}
+	},
+	"value" : [    
+		"A1B1C1","A1B1C2","A1B1C3","A1B1C4",
+		"A1B2C1","A1B2C2","A1B2C3","A1B2C4",
+
+		"A2B1C1","A2B1C2","A2B1C3","A1B1C4",
+		"A2B2C1","A2B2C2","A2B2C3","A2B2C4",
+
+		"A3B1C1","A3B1C2","A3B1C3","A3B1C4",
+		"A3B2C1","A3B2C2","A3B2C3","A3B2C4"
+	]
+}

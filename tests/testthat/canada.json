@@ -1,0 +1,139 @@
+{
+	"version" : "2.0",
+	"class" : "dataset",
+	"href" : "https://json-stat.org/samples/canada.json",
+	"label" : "Population by sex and age group. Canada. 2012",
+	"source" : "Statistics Canada, CANSIM, table 051-0001",
+	"updated" : "2012-09-27",
+	"value" : [34880.5, 17309.1, 17571.3, 100.0, 100.0, 100.0, 1928.8, 988.7, 940.1, 5.5, 5.7, 5.3, 1857.1, 955.0, 902.1, 5.3, 5.5, 5.1, 1877.3, 964.7, 912.6, 5.4, 5.6, 5.2, 2163.0, 1108.2, 1054.7, 6.2, 6.4, 6.0, 2441.1, 1254.2, 1186.9, 7.0, 7.2, 6.8, 2452.3, 1246.8, 1205.5, 7.0, 7.2, 6.9, 2406.3, 1203.5, 1202.8, 6.9, 7.0, 6.8, 2307.2, 1155.2, 1152.0, 6.6, 6.7, 6.6, 2384.6, 1199.4, 1185.2, 6.8, 6.9, 6.7, 2681.3, 1350.1, 1331.2, 7.7, 7.8, 7.6, 2703.2, 1352.3, 1350.9, 7.7, 7.8, 7.7, 2428.5, 1199.0, 1229.5, 7.0, 6.9, 7.0, 2063.0, 1010.2, 1052.8, 5.9, 5.8, 6.0, 1645.1, 797.9, 847.2, 4.7, 4.6, 4.8, 1190.7, 563.8, 626.8, 3.4, 3.3, 3.6, 924.1, 418.9, 505.2, 2.6, 2.4, 2.9, 718.8, 303.6, 415.2, 2.1, 1.8, 2.4, 451.0, 164.1, 286.9, 1.3, 0.9, 1.6, 257.1, 73.2, 183.9, 0.7, 0.4, 1.0],
+	"status" : ["a"],
+	"id" : ["country", "year", "age", "concept", "sex"],
+	"size" : [1, 1, 20, 2, 3],
+	"role" :{
+		"time" : ["year"],
+		"geo" : ["country"],
+		"metric" : ["concept"]
+	},
+	"dimension" : {
+		"concept" : {
+			"label" : "concepts",
+			"category" : {
+				"index" : {
+					"POP" : 0,
+					"PERCENT" : 1
+				},
+				"label" : {
+					"POP" : "population",
+					"PERCENT" : "weight of age group in the population"
+				},
+				"unit" : {
+					"POP" : {
+						"label": "thousands of persons",
+						"decimals": 1,
+						"position" : "end",
+						"type" : "count",
+						"base" : "people",
+						"multiplier" : 3
+					},
+					"PERCENT" : {
+						"label" : "%",
+						"decimals": 1,
+						"position" : "end",
+						"type" : "ratio",
+						"base" : "per cent",
+						"multiplier" : 0
+					}
+				}
+			}
+		},
+
+		"year" : {
+			"label" : "year",
+			"category" : {
+				"index" : {
+					"2012" : 0
+				}
+			}
+		},
+
+		"country" : {
+			"label" : "country",
+			"category" : {
+				"label" : {
+					"CA" : "Canada"
+				}
+			}
+		},
+
+		"age" : {
+			"label" : "age group",
+			"category" : {
+				"index" : [
+					"T",
+					"4",
+					"9",
+					"14",
+					"19",
+					"24",
+					"29",
+					"34",
+					"39",
+					"44",
+					"49",
+					"54",
+					"59",
+					"64",
+					"69",
+					"74",
+					"79",
+					"84",
+					"89",
+					"older"
+				],
+				"label" : {
+					"T": "total",
+					"4": "0 to 4",
+					"9": "5 to 9",
+					"14": "10 to 14",
+					"19": "15 to 19",
+					"24": "20 to 24",
+					"29": "25 to 29",
+					"34": "30 to 34",
+					"39": "35 to 39",
+					"44": "40 to 44",
+					"49": "45 to 49",
+					"54": "50 to 54",
+					"59": "55 to 59",
+					"64": "60 to 64",
+					"69": "65 to 69",
+					"74": "70 to 74",
+					"79": "75 to 79",
+					"84": "80 to 84",
+					"89": "85 to 89",
+					"older": "90 and older"
+				}
+			}
+		},
+
+		"sex" : {
+			"label" : "sex",
+
+			"link" : {
+				"alternate" : [
+					{
+						"type" : "text/html",
+						"href" : "http://www.statcan.gc.ca/concepts/definitions/class-sex-eng.htm"
+					}
+				]
+			},
+			"category" : {
+				"index" : ["T", "M", "F"],
+				"label" : {
+					"T" : "total",
+					"M" : "male",
+					"F" : "female"
+				}
+			}
+		}
+	}
+}
