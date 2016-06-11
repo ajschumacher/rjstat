@@ -59,5 +59,28 @@ test_that("extract", {
     expect_identical(class(x[[1,2:5,1:3]]), "array")
 })
 
+test_that("as.array", {
+    x <- as.jsonstat("hierarchy.json")
+    expect_class(as.array(x), "array")
+    expect_identical(as.vector(as.array(x)), rep(NA, 132))
 
+    x <- as.jsonstat("oecd.json")
+    expect_class(as.array(x), "array")
+    expect_identical(round(as.vector(as.array(x))[6:7],2), c(4.25, 5.59))
+})
+
+
+test_that("as.array", {
+    x <- as.jsonstat("hierarchy.json")
+    expect_class(as.data.frame(x), "data.frame")
+    expect_identical(as.character(as.data.frame(x)$commodity[2:3]), c("1", "1.1"))
+    expect_identical(as.data.frame(x)$value[2:3], rep(NA, 2))
+
+    x <- as.jsonstat("oecd.json")
+    expect_class(as.data.frame(x), "data.frame")
+    expect_identical(as.character(as.data.frame(x)$concept[7]), "UNR")
+    expect_identical(as.character(as.data.frame(x)$area[10]), "AU")
+    expect_identical(as.character(as.data.frame(x)$year[1]), "2003")
+    expect_identical(round(as.data.frame(x)$value[12],3), 5.463)
+})
 
