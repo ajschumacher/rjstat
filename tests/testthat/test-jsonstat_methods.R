@@ -42,3 +42,22 @@ test_that("is methods", {
     expect_true(is.jsonstat_collection(x))
     expect_false(is.jsonstat_dimension(x))
 })
+
+test_that("extract", {
+    x <- as.jsonstat("hierarchy.json")
+    expect_identical(dim(x[2:3]), 2L)
+    expect_identical(class(x[2:3]), class(x))
+    expect_identical(as.vector(x[[2:3]]), c(NA,NA))
+    expect_identical(class(x[[2:3]]), "array")
+
+    x <- as.jsonstat("oecd.json")
+    expect_identical(dim(x[1,5,1]), c(1L, 1L, 1L))
+    expect_identical(class(x[1,5,1]), class(x))
+    expect_identical(dim(x[1,2:5,1:3]), c(1L, 4L, 3L))
+    expect_identical(class(x[1,2:5,1:3]), class(x))
+    expect_identical(round(as.vector(x[[1,5,1]]), 4), 4.3796)
+    expect_identical(class(x[[1,2:5,1:3]]), "array")
+})
+
+
+
