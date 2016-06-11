@@ -12,8 +12,19 @@
 #' @export
 as.jsonstat <-function(x){
     x <- fromJSON(x, simplifyDataFrame = FALSE)
+    x <- parse_value(x)
     validate_jsonstat(x)
     class(x) <- c(paste0("jsonstat_", x$class), "jsonstat", "list")
+    x
+}
+
+parse_value <- function(x){
+    if(!is.null(names(x$value))){
+        idx <- as.integer(names(x$value)) + 1
+        vals <- unlist(x$value)
+        x$value <- rep(NA, prod(x$size))
+        if(length(vals) > 0) x$value[idx] <- vals
+    }
     x
 }
 
