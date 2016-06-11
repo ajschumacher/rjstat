@@ -5,10 +5,11 @@
 #' @return a JSON-stat object with subclass dataset, dimension or collection
 #'
 #' @examples
-#' oecd_jsonstat <- jsonstat("http://json-stat.org/samples/oecd.json")
+#' file_path <- system.file("example_files/oecd.json", package = "rjstat")
+#' oecd_jsonstat <- as.jsonstat(file_path)
 #'
 #' @export
-jsonstat <-function(x){
+as.jsonstat <-function(x){
     x <- fromJSON(x, simplifyDataFrame = FALSE)
     validate_jsonstat(x)
     class(x) <- c(x$class, "json-stat", "list")
