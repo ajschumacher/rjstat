@@ -1,10 +1,9 @@
 Package: rjstat
-Title: Read and Write 'JSON-stat' Data Sets
-Version: 0.3.0
-Author: Aaron Schumacher <ajschumacher@gmail.com>, Håkon Malmedal
+Title: Handle 'JSON-stat' format in R
+Version: 0.4.0
+Author: Aaron Schumacher <ajschumacher@gmail.com>, Håkon Malmedal, Måns Magnusson
 Maintainer: Aaron Schumacher <ajschumacher@gmail.com>
-Description: Read and write the 'JSON-stat' format (http://json-stat.org) to and
-    from (lists of) R data frames. Not all features are supported, especially
+Description: Handle 'JSON-stat' format (http://json-stat.org) in R. Not all features are supported, especially
     the extensive metadata features of 'JSON-stat'.
 License: MIT + file LICENSE
 Encoding: UTF-8
