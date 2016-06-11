@@ -6,7 +6,8 @@
 #'
 #' @examples
 #' file_path <- system.file("example_files/oecd.json", package = "rjstat")
-#' oecd_jsonstat <- as.jsonstat(file_path)
+#' x <- as.jsonstat(file_path)
+#' print(x)
 #'
 #' @export
 as.jsonstat <-function(x){
