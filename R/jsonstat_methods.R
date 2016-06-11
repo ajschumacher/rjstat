@@ -1,24 +1,4 @@
 #' @export
-is.jsonstat <- function(x){
-    inherits(x, "jsonstat")
-}
-
-#' @export
-is.jsonstat_dataset <- function(x){
-    inherits(x, "jsonstat_dataset")
-}
-
-#' @export
-is.jsonstat_collection <- function(x){
-    inherits(x, "jsonstat_collection")
-}
-
-#' @export
-is.jsonstat_dimension <- function(x){
-    inherits(x, "jsonstat_dimension")
-}
-
-#' @export
 print.jsonstat <- function(x, ...){
     cat("JSON-stat ", x$class, " object v.", x$version, sep = "")
 }

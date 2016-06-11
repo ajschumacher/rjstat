@@ -8,6 +8,9 @@
 #' file_path <- system.file("example_files/oecd.json", package = "rjstat")
 #' x <- as.jsonstat(file_path)
 #' print(x)
+#' is.jsonstat(x)
+#' is.jsonstat_dataset(x)
+#' is.jsonstat_dimension(x)
 #'
 #' @export
 as.jsonstat <-function(x){
@@ -16,6 +19,30 @@ as.jsonstat <-function(x){
     validate_jsonstat(x)
     class(x) <- c(paste0("jsonstat_", x$class), "jsonstat", "list")
     x
+}
+
+#' @rdname as.jsonstat
+#' @export
+is.jsonstat <- function(x){
+    inherits(x, "jsonstat")
+}
+
+#' @rdname as.jsonstat
+#' @export
+is.jsonstat_dataset <- function(x){
+    inherits(x, "jsonstat_dataset")
+}
+
+#' @rdname as.jsonstat
+#' @export
+is.jsonstat_collection <- function(x){
+    inherits(x, "jsonstat_collection")
+}
+
+#' @rdname as.jsonstat
+#' @export
+is.jsonstat_dimension <- function(x){
+    inherits(x, "jsonstat_dimension")
 }
 
 parse_value <- function(x){
