@@ -2,11 +2,11 @@ context("Constructor")
 
 test_that("constructor works", {
     as.jsonstat("collection.json") %>%
-        expect_class("json-stat") %>%
-        expect_class("collection")
+        expect_class("jsonstat") %>%
+        expect_class("jsonstat_collection")
     as.jsonstat("dataset.json") %>%
-        expect_class("json-stat") %>%
-        expect_class("dataset")
+        expect_class("jsonstat") %>%
+        expect_class("jsonstat_dataset")
     expect_error(as.jsonstat("notjsonstat.json"))
 
     expect_silent(as.jsonstat("oecd.json"))

@@ -12,7 +12,7 @@
 as.jsonstat <-function(x){
     x <- fromJSON(x, simplifyDataFrame = FALSE)
     validate_jsonstat(x)
-    class(x) <- c(paste0("jstat-", x$class), "jsonstat", "list")
+    class(x) <- c(paste0("jsonstat_", x$class), "jsonstat", "list")
     x
 }
 
