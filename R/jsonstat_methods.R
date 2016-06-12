@@ -118,7 +118,28 @@ as.data.frame.jsonstat_dataset <- function(x, row.names = NULL, optional = FALSE
 
 #' @export
 as.character.jsonstat <- function(x, ...){
-    jsonlite::toJSON(x, na = "null", auto_unbox = TRUE, pretty = TRUE, ...)
+    as.character(as.json(x, ...))
+}
+
+#' @export
+as.json <- function(x, ...){
+    UseMethod("as.json")
+}
+
+#' @export
+as.json.jsonstat <- function(x, ...){
+    jsonlite::toJSON(unbox_jsonstat(x), na = "null", pretty = TRUE, ...)
+}
+
+unbox_jsonstat <- function(x){
+    x$version <- unbox(x$version)
+    x$class <- unbox(x$class)
+    x$label <- unbox(x$label)
+    for(i in seq_along(x$dimension)){
+        x$dimension[[i]]$label <- unbox(x$dimension[[i]]$label)
+        x$dimension[[i]]$category$label$testcategory <- unbox(x$dimension[[i]]$category$label$testcategory)
+    }
+    x
 }
 
 #' @export

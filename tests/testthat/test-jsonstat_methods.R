@@ -1,5 +1,8 @@
 context("jsonstat methods")
 
+## TODO: Add assertions in all functions
+## TODO: Subset dimensions (as jsonstat_dimensions object)
+
 test_that("print", {
     expect_output(print(as.jsonstat("dataset.json")), regexp = "JSON-stat dataset")
     expect_output(print(as.jsonstat("collection.json")), regexp = "JSON-stat collection")
@@ -72,6 +75,10 @@ test_that("as.array", {
     expect_identical(as.vector(as.array(x = x[1,2,])), c(45600.0, 0.31, 0.7, 65143))
 })
 
+x <- as.jsonstat("dataset.json")
+as.character(x)
+as.json(x)
+cat(readLines("dataset.json"))
 
 test_that("as.vector", {
     x <- as.jsonstat("us-gsp.json")
@@ -93,6 +100,8 @@ test_that("as.array and as.data.frame", {
     expect_identical(as.character(as.data.frame(x)$area[10]), "AU")
     expect_identical(as.character(as.data.frame(x)$year[1]), "2003")
     expect_identical(round(as.data.frame(x)$value[12],3), 5.463)
+
+    expect_identical(as.character(as.data.frame(x)$status[1]), "e")
 })
 
 test_that("as.character", {
@@ -139,6 +148,12 @@ test_that("as.character", {
     x <- as.jsonstat("collection_sample.json")
     y <- as.jsonstat(as.character(x, digits=10))
     expect_identical(x, y)
+
+    js <- as.jsonstat("dataset2.json")
+    ch <- paste(readLines("dataset2.json"), collapse = "\n")
+    ch <- unlist(strsplit(ch, split = "\n"))
+    jschar <- unlist(strsplit(as.character(js), split = "\n"))
+    expect_identical(ch, jschar)
 })
 
 test_that("set values", {
