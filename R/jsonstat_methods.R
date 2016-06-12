@@ -36,11 +36,11 @@ dimnames.jsonstat_dataset <- function(x){
             x$dimension[[var_name]]$category$index <- NULL
             value_exist <- value[[i]] %in% names(x$dimension[[var_name]]$category$label)
             if(value_exist) {
-                lab <- x$dimension[[var_name]]$category$label[value_exist]
+                lab <- x$dimension[[var_name]]$category$label[value[[i]]]
             } else {
                 lab <- list("")
+                names(lab) <- value[[i]]
             }
-            names(lab) <- value[[i]]
             x$dimension[[var_name]]$category$label <- lab
         } else {
             has_label <- !is.null(x$dimension[[var_name]]$category$label)

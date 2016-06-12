@@ -84,3 +84,15 @@ test_that("as.array", {
     expect_identical(round(as.data.frame(x)$value[12],3), 5.463)
 })
 
+test_that("set values", {
+    x <- as.jsonstat("oecd.json")
+    expect_silent(x[1,1,1] <- 100.1)
+    expect_identical(as.vector(x[[1,1,1]]), 100.1)
+    expect_silent(x[1,1,3:5] <- 10:12)
+    expect_identical(as.vector(x[[1,1,3:5]]), as.numeric(10:12))
+})
+
+test_that("identified bugs", {
+    x <- as.jsonstat("oecd.json")
+    expect_silent(as.data.frame(x[1,1,1]))
+})
