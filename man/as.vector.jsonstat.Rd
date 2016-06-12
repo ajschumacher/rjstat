@@ -14,6 +14,6 @@ This converts a json stat object to a vector. It essentially just
 returns the value slot of a json stat object.
 }
 \seealso{
-as.vector
+\code{\link{as.vector}}
 }
 
