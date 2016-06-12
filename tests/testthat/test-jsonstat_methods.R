@@ -99,6 +99,38 @@ test_that("as.character", {
     x <- as.jsonstat("oecd-canada-col.json")
     y <- as.jsonstat(as.character(x, digits=10))
     expect_identical(x, y)
+
+    x <- as.jsonstat("canada.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
+
+    x <- as.jsonstat("galicia.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
+
+    x <- as.jsonstat("order.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
+
+    x <- as.jsonstat("order.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
+
+    x <- as.jsonstat("us-gsp.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
+
+    x <- as.jsonstat("us-unr.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
+
+    x <- as.jsonstat("us-labor.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
+
+    x <- as.jsonstat("collection_sample.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
 })
 
 test_that("set values", {

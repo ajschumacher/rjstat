@@ -1,6 +1,6 @@
 # rjstat: read and write JSON-stat with R
-
-[![Build Status](https://travis-ci.org/ajschumacher/rjstat.svg)](https://travis-ci.org/ajschumacher/rjstat)
+[![Build Status](https://travis-ci.org/ajschumacher/rjstat.svg)](https://travis-ci.org/ajschumacher/rjstat) [![Coverage Status](https://coveralls.io/repos/MansMeg/rjstat/badge.svg)](https://coveralls.io/r/rOpenGov/rjstat) [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/rjstat)](https://github.com/metacran/cranlogs.app)
+[![cran version](http://www.r-pkg.org/badges/version/rjstat)](http://cran.rstudio.com/web/packages/rjstat)
 
 Read and write data sets in the [JSON-stat](http://json-stat.org/) format.
 
