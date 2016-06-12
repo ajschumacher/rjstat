@@ -171,20 +171,6 @@ unbox_jsonstat <- function(x){
     x
 }
 
-#' Convert json stat object to numeric vector
-#'
-#' @details
-#' This converts a json stat object to a vector. It essentially just
-#' returns the value slot of a json stat object.
-#'
-#' @seealso \code{\link{as.vector}}
-#'
-#' @param x
-#' a \code{jsonstat_dataset} object
-#' @param mode
-#' character string naming an atomic mode or "\code{list}" or
-#' "\code{expression}" or (except for \code{vector}) "\code{any}".
-#'
 #' @S3method as.vector jsonstat_dataset
 as.vector.jsonstat_dataset <- function(x, mode = "any"){
     as.vector(x$value, mode)
