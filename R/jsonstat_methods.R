@@ -69,14 +69,15 @@ dimnames.jsonstat_dataset <- function(x){
 
 #' @export
 as.array.jsonstat_dataset <- function(x, ...){
-    array(data = x$value, dim = x$size, dimnames = dimnames(x)[x$id])
+    a <- array(data = x$value, dim = rev(x$size), dimnames = rev(dimnames(x)[x$id]))
+    aperm(a, length(dim(a)):1)
 }
 
 #' @export
 `[.jsonstat_dataset` <- function(x, i, ..., drop = FALSE)
 {
     jsarray <- as.array(x)
-    subs <- array_to_jsonstat_helper(jsonstat_array = jsarray[i, ..., drop=FALSE])
+    subs <- array_to_jsonstat_helper(jsarray[i, ..., drop=FALSE])
     x$size <- subs$size
     x$value <- subs$value
     dimnames(x) <- subs$dimnames
@@ -90,19 +91,20 @@ as.array.jsonstat_dataset <- function(x, ...){
     jsarray[i, ..., drop=FALSE]
 }
 
-array_to_jsonstat_helper <- function(jsonstat_array){
+array_to_jsonstat_helper <- function(jsa){
     res <- list()
-    res$size <- dim(jsonstat_array)
-    res$value <- as.vector(jsonstat_array)
-    res$dimnames <- dimnames(jsonstat_array)
+    res$size <- dim(jsa)
+    res$value <- as.vector(aperm(jsa, length(dim(jsa)):1))
+    res$dimnames <- dimnames(jsa)
     res
 }
 
 #' @export
 `[<-.jsonstat_dataset` <- function(x, i, ..., value){
     jsarray <- as.array(x)
+    jsarray[1,1,3:5] <- 10:12
     jsarray[i, ...] <- value
-    subs <- array_to_jsonstat_helper(jsonstat_array = jsarray)
+    subs <- array_to_jsonstat_helper(jsarray)
     x$value <- subs$value
     x
 }

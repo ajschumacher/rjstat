@@ -55,7 +55,7 @@ test_that("extract", {
     expect_identical(class(x[1,5,1]), class(x))
     expect_identical(dim(x[1,2:5,1:3]), c(1L, 4L, 3L))
     expect_identical(class(x[1,2:5,1:3]), class(x))
-    expect_identical(round(as.vector(x[[1,5,1]]), 4), 4.3796)
+    expect_identical(round(as.vector(x[[1,5,1]]), 4), 9.5434)
     expect_identical(class(x[[1,2:5,1:3]]), "array")
 })
 
@@ -67,6 +67,9 @@ test_that("as.array", {
     x <- as.jsonstat("oecd.json")
     expect_class(as.array(x), "array")
     expect_identical(round(as.vector(as.array(x))[6:7],2), c(4.25, 5.59))
+
+    x <- as.jsonstat("us-gsp.json")
+    expect_identical(as.vector(as.array(x = x[1,2,])), c(45600.0, 0.31, 0.7, 65143))
 })
 
 
