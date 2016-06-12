@@ -128,16 +128,38 @@ as.json <- function(x, ...){
 
 #' @export
 as.json.jsonstat <- function(x, ...){
-    jsonlite::toJSON(unbox_jsonstat(x), na = "null", pretty = TRUE, ...)
+    jsonlite::toJSON(unbox_jsonstat(x), na = "null", pretty = TRUE, digits = parse_digits(x$value), ...)
+}
+
+parse_digits <-function(x){
+    l <- strsplit(x = as.character(x), "\\.")
+    has_decimals <- unlist(lapply(l, FUN=length)) > 1
+    if(any(has_decimals)){
+        max(unlist(lapply(l[has_decimals], FUN=function(X) nchar(X[[2]]))))
+    } else {
+        0
+    }
 }
 
 unbox_jsonstat <- function(x){
     x$version <- unbox(x$version)
     x$class <- unbox(x$class)
-    x$label <- unbox(x$label)
+    if(!is.null(x$label)) x$label <- unbox(x$label)
+    if(!is.null(x$href)) x$href <- unbox(x$href)
+    if(!is.null(x$source)) x$source <- unbox(x$source)
+    if(!is.null(x$updated)) x$updated <- unbox(x$updated)
+    if(!is.null(x$status) && is.list(x$status)){
+        x$status <- lapply(x$status, unbox)
+    }
+
     for(i in seq_along(x$dimension)){
         x$dimension[[i]]$label <- unbox(x$dimension[[i]]$label)
-        x$dimension[[i]]$category$label$testcategory <- unbox(x$dimension[[i]]$category$label$testcategory)
+        for(j in seq_along(x$dimension[[i]]$category$label)){
+            x$dimension[[i]]$category$label[[j]] <- unbox(x$dimension[[i]]$category$label[[j]])
+        }
+        for(j in seq_along(x$dimension[[i]]$category$index)){
+            x$dimension[[i]]$category$index[[j]] <- unbox(x$dimension[[i]]$category$index[[j]])
+        }
     }
     x
 }

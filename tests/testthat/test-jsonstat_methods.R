@@ -152,6 +152,13 @@ test_that("as.character", {
     js <- as.jsonstat("dataset2.json")
     ch <- paste(readLines("dataset2.json"), collapse = "\n")
     ch <- unlist(strsplit(ch, split = "\n"))
+    jschar <- unlist(strsplit(as.character(x = js), split = "\n"))
+    expect_identical(ch, jschar)
+
+    x <- js <- as.jsonstat("oecd_tidy.json")
+    ch <- paste(readLines("oecd_tidy.json"), collapse = "\n")
+    ch <- unlist(strsplit(ch, split = "\n"))
+    ch <- gsub("\t","  ", ch)
     jschar <- unlist(strsplit(as.character(js), split = "\n"))
     expect_identical(ch, jschar)
 })
