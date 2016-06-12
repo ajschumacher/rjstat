@@ -66,7 +66,7 @@ test_that("as.array", {
 
     x <- as.jsonstat("oecd.json")
     expect_class(as.array(x), "array")
-    expect_identical(round(as.vector(as.array(x))[6:7],2), c(4.25, 5.59))
+    expect_identical(round(as.vector(as.array(x))[6:7],2), c(7.82, 5.34))
 
     x <- as.jsonstat("us-gsp.json")
     expect_identical(as.vector(as.array(x = x[1,2,])), c(45600.0, 0.31, 0.7, 65143))
