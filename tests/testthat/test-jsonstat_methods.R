@@ -70,7 +70,7 @@ test_that("as.array", {
 })
 
 
-test_that("as.array", {
+test_that("as.array and as.data.frame", {
     x <- as.jsonstat("hierarchy.json")
     expect_class(as.data.frame(x), "data.frame")
     expect_identical(as.character(as.data.frame(x)$commodity[2:3]), c("1", "1.1"))
@@ -82,6 +82,20 @@ test_that("as.array", {
     expect_identical(as.character(as.data.frame(x)$area[10]), "AU")
     expect_identical(as.character(as.data.frame(x)$year[1]), "2003")
     expect_identical(round(as.data.frame(x)$value[12],3), 5.463)
+})
+
+test_that("as.character", {
+    x <- as.jsonstat("hierarchy.json")
+    y <- as.jsonstat(as.character(x))
+    expect_identical(x, y)
+
+    x <- as.jsonstat("oecd.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
+
+    x <- as.jsonstat("oecd-canada-col.json")
+    y <- as.jsonstat(as.character(x, digits=10))
+    expect_identical(x, y)
 })
 
 test_that("set values", {

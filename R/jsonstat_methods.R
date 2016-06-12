@@ -114,4 +114,8 @@ as.data.frame.jsonstat_dataset <- function(x, row.names = NULL, optional = FALSE
     df
 }
 
+#' @export
+as.character.jsonstat <- function(x, ...){
+    jsonlite::toJSON(x, na = "null", auto_unbox = TRUE, pretty = TRUE, ...)
+}
 
