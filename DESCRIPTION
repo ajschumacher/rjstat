@@ -1,10 +1,11 @@
 Package: rjstat
 Title: Handle 'JSON-stat' Format in R
 Version: 0.4.0
-Author: Aaron Schumacher <ajschumacher@gmail.com>, Håkon Malmedal, Måns Magnusson
+Author: Aaron Schumacher, Håkon Malmedal, Måns Magnusson
 Maintainer: Aaron Schumacher <ajschumacher@gmail.com>
-Description: Handle 'JSON-stat' format (http://json-stat.org) in R. Not all features are supported, especially
-    the extensive metadata features of 'JSON-stat'.
+Description: Handle 'JSON-stat' format (http://json-stat.org) in R.
+    Not all features are supported, especially the extensive metadata
+    features of 'JSON-stat'.
 License: MIT + file LICENSE
 Encoding: UTF-8
 URL: https://github.com/ajschumacher/rjstat
