@@ -77,7 +77,7 @@ as.array.jsonstat_dataset <- function(x, ...){
 `[.jsonstat_dataset` <- function(x, i, ..., drop = FALSE)
 {
     jsarray <- as.array(x)
-    subs <- array_to_jsonstat_helper(jsarray[i, ..., drop=FALSE])
+    subs <- array_to_jsonstat_helper(jsarray[i, ..., drop = drop])
     x$size <- subs$size
     x$value <- subs$value
     dimnames(x) <- subs$dimnames
