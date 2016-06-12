@@ -121,6 +121,13 @@ as.character.jsonstat <- function(x, ...){
     as.character(as.json(x, ...))
 }
 
+#' Convert to jsonlite json object
+#'
+#' @param x an object to coerce to a json object.
+#' @param ... additional arguments to be passed to or from methods.
+#'
+#' @details Currently only methods for \code{jsonstat} objects are implemented.
+#'
 #' @export
 as.json <- function(x, ...){
     UseMethod("as.json")
@@ -172,7 +179,13 @@ unbox_jsonstat <- function(x){
 #'
 #' @seealso \code{\link{as.vector}}
 #'
-#' @export
-as.vector.jsonstat <- function(x, mode = "any"){
+#' @param x
+#' a \code{jsonstat_dataset} object
+#' @param mode
+#' character string naming an atomic mode or "\code{list}" or
+#' "\code{expression}" or (except for \code{vector}) "\code{any}".
+#'
+#' @S3method as.vector jsonstat_dataset
+as.vector.jsonstat_dataset <- function(x, mode = "any"){
     as.vector(x$value, mode)
 }
