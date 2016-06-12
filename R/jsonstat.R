@@ -13,7 +13,7 @@
 #' is.jsonstat_dimension(x)
 #'
 #' @export
-as.jsonstat <-function(x){
+as.jsonstat <- function(x){
     x <- fromJSON(x, simplifyDataFrame = FALSE)
     x <- parse_value(x)
     validate_jsonstat(x)
