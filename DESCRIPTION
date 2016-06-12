@@ -1,5 +1,5 @@
 Package: rjstat
-Title: Handle 'JSON-stat' format in R
+Title: Handle 'JSON-stat' Format in R
 Version: 0.4.0
 Author: Aaron Schumacher <ajschumacher@gmail.com>, Håkon Malmedal, Måns Magnusson
 Maintainer: Aaron Schumacher <ajschumacher@gmail.com>
