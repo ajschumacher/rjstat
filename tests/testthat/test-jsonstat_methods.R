@@ -73,6 +73,14 @@ test_that("as.array", {
 })
 
 
+test_that("as.vector", {
+    x <- as.jsonstat("us-gsp.json")
+    a <- as.array(x)
+    a <- aperm(a, perm = length(dim(a)):1)
+    expect_identical(as.vector(a), as.vector(x))
+})
+
+
 test_that("as.array and as.data.frame", {
     x <- as.jsonstat("hierarchy.json")
     expect_class(as.data.frame(x), "data.frame")

@@ -121,3 +121,7 @@ as.character.jsonstat <- function(x, ...){
     jsonlite::toJSON(x, na = "null", auto_unbox = TRUE, pretty = TRUE, ...)
 }
 
+#' @export
+as.vector.jsonstat <- function(x, mode = "any"){
+    as.vector(x$value, mode)
+}
