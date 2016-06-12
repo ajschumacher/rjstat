@@ -164,6 +164,14 @@ unbox_jsonstat <- function(x){
     x
 }
 
+#' Convert json stat object to numeric vector
+#'
+#' @details
+#' This converts a json stat object to a vector. It essentially just
+#' returns the value slot of a json stat object.
+#'
+#' @seealso as.vector
+#'
 #' @export
 as.vector.jsonstat <- function(x, mode = "any"){
     as.vector(x$value, mode)
