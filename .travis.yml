@@ -1,3 +1,20 @@
 language: r
-sudo: false
+r:
+  - release
+  - devel
+sudo: required
 cache: packages
+
+# Be strict when checking our package
+warnings_are_errors: true
+
+r_github_packages:
+  -  jimhester/covr
+
+after_success:
+  - Rscript -e 'covr::coveralls()'
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change

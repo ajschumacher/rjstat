@@ -1,0 +1,51 @@
+{
+	"version" : "2.0",
+	"class" : "collection",
+	"href" : "https://json-stat.org/samples/collection.json",
+	"label" : "JSON-stat Dataset Sample Collection",
+	"updated" : "2015-12-21",
+	"link" : {
+		"item" : [
+			{
+				"class" : "dataset",
+				"href" : "https://json-stat.org/samples/oecd.json",
+				"label" : "Unemployment rate in the OECD countries 2003-2014"
+			},
+			{
+				"class" : "dataset",
+				"href" : "https://json-stat.org/samples/canada.json",
+				"label" : "Population by sex and age group. Canada. 2012"
+			},
+			{
+				"class" : "dataset",
+				"href" : "https://json-stat.org/samples/galicia.json",
+				"label" : "Population by province of residence, place of birth, age, gender and year in Galicia"
+			},
+			{
+				"class" : "dataset",
+				"href" : "https://json-stat.org/samples/us-gsp.json",
+				"label" : "US States by GSP and population"
+			},
+			{
+				"class" : "dataset",
+				"href" : "https://json-stat.org/samples/us-unr.json",
+				"label" : "Unemployment Rates by County, 2012 Annual Averages"
+			},
+			{
+				"class" : "dataset",
+				"href" : "https://json-stat.org/samples/us-labor.json",
+				"label" : "Labor Force Data by County, 2012 Annual Averages"
+			},
+			{
+				"class" : "dataset",
+				"href" : "https://json-stat.org/samples/order.json",
+				"label"  : "Demo of value ordering: what does not change, first"				
+			},
+			{
+				"class" : "dataset",
+				"href" : "https://json-stat.org/samples/hierarchy.json",
+				"label" : "Demo of hierarchical dimension"
+			}
+		]
+	}
+}
