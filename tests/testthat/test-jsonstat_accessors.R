@@ -16,10 +16,11 @@ test_that("status", {
     expect_error(status(x) <- c("E", "D"))
     expect_silent(status(x) <- "e")
     expect_equal(status(x), "e")
-    vals <- c("e", "g", "f")
-    names(vals) <- c("32", "2", "17")
+    vals <- list("32"="e", "42"="g", "88"="f")
     expect_silent(status(x) <- vals)
     expect_equal(status(x), vals)
+    names(vals) <- NULL
+    expect_error(status(x) <- vals)
     expect_silent(status(x) <- rep("e", length(as.vector(x))))
 })
 

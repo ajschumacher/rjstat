@@ -12,7 +12,7 @@ status(x) <- value
 \arguments{
 \item{x}{a \code{jsonstat_dataset} object}
 
-\item{value}{a character vector of up to the same length as \code{as.vector(x)} or a named vector with index as vector names.}
+\item{value}{a character vector of up to the same length as \code{as.vector(x)} or a named list with index as vector names.}
 }
 \description{
 Access and change \code{status}s of jsonstat objects.
