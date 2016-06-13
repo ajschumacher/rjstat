@@ -5,7 +5,7 @@
 #' @return a JSON-stat object with subclass dataset, dimension or collection
 #'
 #' @examples
-#' file_path <- system.file("example_files/oecd.json", package = "rjstat")
+#' file_path <- system.file("extdata", "oecd.json", package = "rjstat")
 #' x <- as.jsonstat(file_path)
 #' print(x)
 #' is.jsonstat(x)
