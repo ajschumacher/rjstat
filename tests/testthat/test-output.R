@@ -32,12 +32,14 @@ test_that("value objects give correct output", {
     txt1 <- toJSONstat(df1)
     expect_equal(fromJSONstat(txt1, use_factors = TRUE),
                  data.frame(V1 = letters,
-                            value = c(1, rep(NA, 25))))
+                            value = c(1, rep(NA, 25)),
+                            stringsAsFactors = TRUE))
     df2 <- data.frame(V1 = factor(letters[1:2], letters), value = 1:2)
     txt2 <- toJSONstat(df2)
     expect_equal(fromJSONstat(txt2, use_factors = TRUE),
                  data.frame(V1 = letters,
-                            value = c(1:2, rep(NA, 24))))
+                            value = c(1:2, rep(NA, 24)),
+                            stringsAsFactors = TRUE))
 })
 
 test_that("named and unnamed lists give the same output", {
