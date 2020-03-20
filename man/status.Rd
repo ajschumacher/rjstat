@@ -17,4 +17,3 @@ status(x) <- value
 \description{
 Access and change \code{status}s of jsonstat objects.
 }
-

@@ -3,8 +3,8 @@
 \name{as.jsonstat}
 \alias{as.jsonstat}
 \alias{is.jsonstat}
-\alias{is.jsonstat_collection}
 \alias{is.jsonstat_dataset}
+\alias{is.jsonstat_collection}
 \alias{is.jsonstat_dimension}
 \title{Create a JSON-stat object}
 \usage{
@@ -36,4 +36,3 @@ is.jsonstat_dataset(x)
 is.jsonstat_dimension(x)
 
 }
-

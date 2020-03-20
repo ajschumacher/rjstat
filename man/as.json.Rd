@@ -17,4 +17,3 @@ Convert to jsonlite json object
 \details{
 Currently only methods for \code{jsonstat} objects are implemented.
 }
-

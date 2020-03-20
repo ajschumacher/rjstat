@@ -171,7 +171,7 @@ unbox_jsonstat <- function(x){
     x
 }
 
-#' @S3method as.vector jsonstat_dataset
+#' @export
 as.vector.jsonstat_dataset <- function(x, mode = "any"){
     as.vector(x$value, mode)
 }

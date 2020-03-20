@@ -12,4 +12,3 @@ Hopefully this can be complemented with a real json stat
 schema validator.
 }
 \keyword{internal}
-

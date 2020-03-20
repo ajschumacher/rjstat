@@ -17,4 +17,3 @@ id(x) <- value
 \description{
 Access and change \code{id}s of jsonstat objects.
 }
-

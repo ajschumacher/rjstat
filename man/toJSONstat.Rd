@@ -34,4 +34,3 @@ cat(substr(irisJSONstat, 1, 76))
 # Add indentation whitespace
 toJSONstat(as.data.frame(Titanic), value = "Freq", pretty = TRUE)
 }
-
