@@ -29,7 +29,7 @@ column.
 }
 \examples{
 \dontrun{
-oecd.canada.url <- "http://json-stat.org/samples/oecd-canada.json"
+oecd.canada.url <- "https://json-stat.org/samples/oecd-canada.json"
 results <- fromJSONstat(oecd.canada.url)
 names(results)
 }

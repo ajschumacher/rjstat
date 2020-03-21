@@ -1,6 +1,6 @@
 #' Read and write JSON-stat data sets
 #'
-#' \href{http://json-stat.org}{JSON-stat} is a JSON format for data
+#' \href{https://json-stat.org}{JSON-stat} is a JSON format for data
 #' dissemination. The \pkg{rjstat} package converts data frames to and from this
 #' format. The extensive metadata features of JSON-stat are not supported.
 #'
@@ -30,7 +30,7 @@ NULL
 #' @export
 #' @examples
 #' \dontrun{
-#' oecd.canada.url <- "http://json-stat.org/samples/oecd-canada.json"
+#' oecd.canada.url <- "https://json-stat.org/samples/oecd-canada.json"
 #' results <- fromJSONstat(oecd.canada.url)
 #' names(results)
 #' }
