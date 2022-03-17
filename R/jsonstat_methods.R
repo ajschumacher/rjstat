@@ -110,7 +110,7 @@ array_to_jsonstat_helper <- function(jsa){
 }
 
 #' @export
-as.data.frame.jsonstat_dataset <- function(x, row.names = NULL, optional = FALSE, ..., stringsAsFactors = default.stringsAsFactors()){
+as.data.frame.jsonstat_dataset <- function(x, row.names = NULL, optional = FALSE, ..., stringsAsFactors = FALSE){
     df <- parse_dataset(dataset = x, naming = "id", use_factors = stringsAsFactors)
     if(!is.null(row.names)) rownames(df) <- row.names
     df
