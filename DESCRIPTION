@@ -1,6 +1,6 @@
 Package: rjstat
 Title: Handle 'JSON-stat' Format in R
-Version: 0.4.1
+Version: 0.4.2
 Author: Aaron Schumacher, Håkon Malmedal, Måns Magnusson
 Maintainer: Aaron Schumacher <ajschumacher@gmail.com>
 Description: Handle 'JSON-stat' format (<https://json-stat.org>) in R.
@@ -16,4 +16,4 @@ Imports:
 Suggests:
     testthat (>= 1.0.0),
     reshape (>= 0.7)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.2
