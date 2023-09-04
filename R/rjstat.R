@@ -6,6 +6,7 @@
 #'
 #' @docType package
 #' @name rjstat
+#' @aliases rjstat-package
 #' @import jsonlite
 #' @import checkmate
 NULL

@@ -3,6 +3,7 @@
 \docType{package}
 \name{rjstat}
 \alias{rjstat}
+\alias{rjstat-package}
 \title{Read and write JSON-stat data sets}
 \description{
 \href{https://json-stat.org}{JSON-stat} is a JSON format for data
