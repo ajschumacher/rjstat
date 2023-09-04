@@ -59,7 +59,7 @@ test_that("columns are correct", {
         toJSONstat() %>%
         fromJSONstat() %>%
         getElement("V1") %>%
-        expect_equal(as.character(as.raw(0:255)))
+        expect_equal(sort(as.character(as.raw(0:255))))
 })
 
 test_that("column names are correct for missing labels", {
